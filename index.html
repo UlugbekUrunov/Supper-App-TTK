@@ -183,6 +183,25 @@ const LOGOS={
 const LK={'Tcell':'tcell','Babilon-Mobile':'babilon','МегаФон':'megafon','ZET-Mobile':'zet','Anor':'anor','O!Mobile':'omobile'};
 /* ================= i18n ================= */
 const T={
+ period:{ru:'Срок',tj:'Мӯҳлат',en:'Period'},
+ d7:{ru:'7 дней',tj:'7 рӯз',en:'7 days'},
+ d_all:{ru:'Все',tj:'Ҳама',en:'All'},
+ perday:{ru:'в день',tj:'дар рӯз',en:'per day'},
+ monty_note:{ru:'Цены партнёра Monty Mobile по курсу',tj:'Нархҳои шарики Monty Mobile аз рӯи қурб',en:'Monty Mobile partner prices at current rate'},
+ card_add:{ru:'Привязать карту',tj:'Пайваст кардани корт',en:'Link a card'},
+ card_why:{ru:'Карта нужна, чтобы оплачивать услуги в один тап. Списаний без вашего подтверждения не будет.',tj:'Корт барои пардохти хидматҳо бо як зер лозим аст. Бе тасдиқи шумо маблағ гирифта намешавад.',en:'A card lets you pay in one tap. Nothing is charged without your confirmation.'},
+ card_num:{ru:'Номер карты',tj:'Рақами корт',en:'Card number'},
+ card_owner:{ru:'Владелец карты (латиницей)',tj:'Соҳиби корт (лотинӣ)',en:'Cardholder (Latin)'},
+ card_exp:{ru:'Срок',tj:'Мӯҳлат',en:'Expiry'},
+ card_safe:{ru:'Данные карты передаются в зашифрованном виде и не хранятся в приложении.',tj:'Маълумоти корт рамзгузорӣ шуда, дар барнома нигоҳ дошта намешавад.',en:'Card data is encrypted and is not stored in the app.'},
+ card_link:{ru:'Привязать карту',tj:'Пайваст кардан',en:'Link card'},
+ later:{ru:'Позже',tj:'Баъдтар',en:'Later'},
+ profile_ttl:{ru:'Профиль абонента',tj:'Профили муштарӣ',en:'Subscriber profile'},
+ card_linked:{ru:'Карта привязана',tj:'Корт пайваст аст',en:'Card linked'},
+ card_none:{ru:'Карта не привязана',tj:'Корт пайваст нест',en:'No card linked'},
+ kyc_first:{ru:'Подтвердите личность',tj:'Шахсиятро тасдиқ кунед',en:'Verify your identity'},
+ kyc_first_d:{ru:'Один раз — и все три услуги станут доступны',tj:'Як маротиба — ва ҳар се хидмат дастрас мешаванд',en:'Once — and all three services unlock'},
+ open_all:{ru:'Открывает все услуги',tj:'Ҳамаи хидматҳоро мекушояд',en:'Unlocks all services'},
  promise:{ru:'Вся мобильная связь Таджикистана в одном приложении',
           tj:'Тамоми алоқаи мобилии Тоҷикистон дар як барнома',
           en:'All mobile connectivity in Tajikistan, in one app'},
@@ -336,7 +355,7 @@ const T={
  changetar:{ru:'Сменить тариф',tj:'Тағйири тариф',en:'Change tariff'},
  buymore:{ru:'Купить ещё eSIM',tj:'Боз eSIM харидан',en:'Buy another eSIM'},
  proftitle:{ru:'Профиль',tj:'Профил',en:'Profile'},
- verified:{ru:'Верифицирован',tj:'Тасдиқшуда',en:'Verified'},
+ verified:{ru:'Подтверждён',tj:'Тасдиқ шуд',en:'Verified'},
  lang:{ru:'Язык',tj:'Забон',en:'Language'},
  paymethods:{ru:'Способы оплаты',tj:'Тарзҳои пардохт',en:'Payment methods'},
  history:{ru:'История заказов',tj:'Таърихи фармоишҳо',en:'Order history'},
@@ -437,40 +456,68 @@ function bar(titleKey,back){return `<div class="appbar">${back!==false?`<div cla
 
 /* ================= screens ================= */
 
-/* ===== v2: travel eSIM, каталог Monty ===== */
-/* Оптовые цены USD из прайса Monty V14 (14.05.2026).
-   Розница = опт × MARKUP × USD_TJS. Обе константы ТРЕБУЮТ ПРОВЕРКИ у финансов. */
-const USD_TJS = 10.9;   // [ТРЕБУЕТ ПРОВЕРКИ] курс на дату
-const MARKUP  = 2.0;    // [ТРЕБУЕТ ПРОВЕРКИ] наценка
-function tjs(usd){return Math.round(usd*MARKUP*USD_TJS)}
 
+/* ===== eSIM Travel · каталог Monty Mobile =====
+   Цены — оптовый прайс Monty Travel eSIM Wholesale B2B V14 от 14.05.2026, USD.
+   Наценка НЕ применяется: показываем цену Monty, пересчитанную по курсу.
+   [ТРЕБУЕТ ПРОВЕРКИ] курс уточнить у финансов на дату запуска. */
+const USD_TJS = 10.9;
+function tjs(usd){return Math.round(usd*USD_TJS)}
+/* пакет: [объём, дней, цена USD] */
 const DEST=[
- {c:'Турция',   cen:'Turkey',      f:'🇹🇷', nets:'Turkcell, Vodafone TR',        pk:[['1 ГБ',7,0.70],['3 ГБ',30,1.75],['5 ГБ',30,2.70],['10 ГБ',10,3.75]]},
- {c:'ОАЭ',      cen:'UAE',         f:'🇦🇪', nets:'Etisalat, du',                 pk:[['1 ГБ',7,0.90],['3 ГБ',30,2.00],['5 ГБ',30,3.30],['10 ГБ',10,5.50]]},
- {c:'Казахстан',cen:'Kazakhstan',  f:'🇰🇿', nets:'Kcell, Beeline KZ, Tele2',     pk:[['1 ГБ',7,2.10],['3 ГБ',30,5.60],['5 ГБ',30,8.50]]},
- {c:'Китай',    cen:'China',       f:'🇨🇳', nets:'China Mobile, China Unicom',   pk:[['1 ГБ',7,2.50],['3 ГБ',30,4.99],['5 ГБ',30,7.50]]},
- {c:'Узбекистан',cen:'Uzbekistan', f:'🇺🇿', nets:'Ucell, Beeline UZ',            pk:[['1 ГБ',7,1.30],['3 ГБ',30,3.30],['5 ГБ',30,5.20]]},
- {c:'Саудовская Аравия',cen:'Saudi Arabia',f:'🇸🇦',nets:'STC, Zain, Mobily',     pk:[['1 ГБ',7,1.99],['3 ГБ',30,4.50],['5 ГБ',30,7.00]]},
- {c:'Кыргызстан',cen:'Kyrgyzstan', f:'🇰🇬', nets:'Beeline KG, MegaCom',          pk:[['1 ГБ',7,2.70],['3 ГБ',30,5.60],['5 ГБ',30,8.50]]},
- {c:'Германия', cen:'Germany',     f:'🇩🇪', nets:'Telekom, Vodafone DE',         pk:[['1 ГБ',7,0.97],['3 ГБ',30,1.92],['5 ГБ',30,2.86]]},
- {c:'Катар',    cen:'Qatar',       f:'🇶🇦', nets:'Ooredoo, Vodafone QA',         pk:[['1 ГБ',7,1.50],['3 ГБ',30,3.50],['5 ГБ',30,6.00]]},
- {c:'Польша',   cen:'Poland',      f:'🇵🇱', nets:'Orange, Play',                 pk:[['1 ГБ',7,0.97],['3 ГБ',30,1.92],['5 ГБ',30,2.86]]}
+ {c:'Турция',cen:'Turkey',f:'🇹🇷',nets:'Turkcell, Vodafone TR',pk:[
+   ['0.5 ГБ',7,0.50],['1 ГБ',7,0.70],['3 ГБ',7,5.30],['5 ГБ',7,2.25],['10 ГБ',7,3.50],
+   ['10 ГБ',10,3.75],['5 ГБ',15,2.55],['3 ГБ',30,1.75],['5 ГБ',30,2.70],['10 ГБ',30,3.80],['20 ГБ',30,6.80],['50 ГБ',30,15.50]]},
+ {c:'ОАЭ',cen:'UAE',f:'🇦🇪',nets:'Etisalat, du',pk:[
+   ['1 ГБ',7,0.90],['5 ГБ',7,2.70],['10 ГБ',7,5.00],['5 ГБ',10,2.90],['10 ГБ',10,5.50],
+   ['5 ГБ',15,3.10],['10 ГБ',15,5.80],['3 ГБ',30,2.00],['5 ГБ',30,3.30],['10 ГБ',30,6.20],['20 ГБ',30,23.00],['50 ГБ',30,29.99]]},
+ {c:'Казахстан',cen:'Kazakhstan',f:'🇰🇿',nets:'Kcell, Beeline KZ, Tele2',pk:[
+   ['1 ГБ',7,2.10],['5 ГБ',7,7.60],['5 ГБ',10,8.00],['5 ГБ',15,8.00],['10 ГБ',15,13.99],
+   ['3 ГБ',30,5.60],['5 ГБ',30,8.50],['10 ГБ',30,14.99],['20 ГБ',30,28.30],['50 ГБ',30,55.30]]},
+ {c:'Китай',cen:'China',f:'🇨🇳',nets:'China Mobile, China Unicom',pk:[
+   ['1 ГБ',7,2.50],['5 ГБ',7,6.50],['5 ГБ',10,6.99],['5 ГБ',15,6.99],['10 ГБ',15,11.99],
+   ['3 ГБ',30,4.99],['5 ГБ',30,7.50],['10 ГБ',30,12.50],['20 ГБ',30,21.50],['50 ГБ',30,46.30],['100 ГБ',30,91.30]]},
+ {c:'Узбекистан',cen:'Uzbekistan',f:'🇺🇿',nets:'Ucell, Beeline UZ',pk:[
+   ['1 ГБ',7,1.30],['5 ГБ',7,4.60],['5 ГБ',10,4.90],['10 ГБ',15,8.90],
+   ['3 ГБ',30,3.30],['5 ГБ',30,5.20],['10 ГБ',30,9.50],['20 ГБ',30,17.50],['50 ГБ',30,37.20]]},
+ {c:'Саудовская Аравия',cen:'Saudi Arabia',f:'🇸🇦',nets:'STC, Zain, Mobily',pk:[
+   ['1 ГБ',7,1.99],['5 ГБ',7,6.50],['5 ГБ',10,6.80],['10 ГБ',15,10.00],
+   ['3 ГБ',30,4.50],['5 ГБ',30,7.00],['10 ГБ',30,11.50],['20 ГБ',30,18.50],['50 ГБ',30,40.00]]},
+ {c:'Кыргызстан',cen:'Kyrgyzstan',f:'🇰🇬',nets:'Beeline KG, MegaCom',pk:[
+   ['1 ГБ',7,2.70],['5 ГБ',7,7.60],['5 ГБ',10,8.00],['5 ГБ',15,8.00],['10 ГБ',15,13.99],
+   ['3 ГБ',30,5.60],['5 ГБ',30,8.50],['10 ГБ',30,14.99],['20 ГБ',30,28.30],['50 ГБ',30,55.30]]},
+ {c:'Катар',cen:'Qatar',f:'🇶🇦',nets:'Ooredoo, Vodafone QA',pk:[
+   ['1 ГБ',7,1.50],['5 ГБ',7,4.50],['5 ГБ',10,5.50],['10 ГБ',15,8.00],
+   ['3 ГБ',30,3.50],['5 ГБ',30,6.00],['10 ГБ',30,9.00],['20 ГБ',30,17.00],['50 ГБ',30,35.00]]},
+ {c:'Германия',cen:'Germany',f:'🇩🇪',nets:'Telekom, Vodafone DE',pk:[
+   ['1 ГБ',7,0.97],['3 ГБ',30,1.92],['5 ГБ',30,2.86],['10 ГБ',30,4.63],['20 ГБ',30,9.94],['50 ГБ',30,19.68]]},
+ {c:'Польша',cen:'Poland',f:'🇵🇱',nets:'Orange, Play',pk:[
+   ['1 ГБ',7,0.97],['3 ГБ',30,1.92],['5 ГБ',30,2.86],['10 ГБ',30,4.63],['20 ГБ',30,9.94],['50 ГБ',30,19.68]]}
 ];
 const REG=[
- {c:'Европа+ · 32 страны',cen:'Europe+ · 32 countries',f:'🇪🇺',nets:'Более 90 сетей',pk:[['1 ГБ',7,1.50],['3 ГБ',30,3.20],['10 ГБ',30,8.10]]},
- {c:'Европа и Турция · 36',cen:'Euro Turk · 36',f:'🌍',nets:'Более 100 сетей',pk:[['1 ГБ',7,1.80],['3 ГБ',30,3.99],['10 ГБ',30,10.50]]},
- {c:'Азия · 14 стран',cen:'Asia · 14 countries',f:'🌏',nets:'Более 40 сетей',pk:[['1 ГБ',7,3.99],['3 ГБ',30,9.20],['10 ГБ',30,27.50]]}
+ {c:'Европа+ · 32 страны',cen:'Europe+ · 32 countries',f:'🇪🇺',nets:'Более 90 сетей',pk:[
+   ['0.5 ГБ',2,1.25],['1 ГБ',7,1.50],['5 ГБ',10,4.80],['10 ГБ',15,8.10],
+   ['3 ГБ',30,3.20],['5 ГБ',30,4.80],['10 ГБ',30,8.10],['20 ГБ',30,14.50]]},
+ {c:'Европа и Турция · 36',cen:'Euro Turk · 36',f:'🌍',nets:'Более 100 сетей',pk:[
+   ['1 ГБ',7,1.80],['3 ГБ',30,3.99],['5 ГБ',30,5.99],['10 ГБ',30,10.50],['20 ГБ',30,19.99],['50 ГБ',30,39.99]]},
+ {c:'Ближний Восток · 6',cen:'Middle East · 6',f:'🕌',nets:'ОАЭ, Саудовская Аравия, Катар и др.',pk:[
+   ['1 ГБ',7,2.99],['10 ГБ',15,17.99],['3 ГБ',30,5.99],['5 ГБ',30,9.99],['10 ГБ',30,18.99],['20 ГБ',30,34.50]]},
+ {c:'Азия · 14 стран',cen:'Asia · 14 countries',f:'🌏',nets:'Более 40 сетей',pk:[
+   ['1 ГБ',7,3.99],['3 ГБ',30,9.20],['5 ГБ',30,14.99],['10 ГБ',30,27.50]]}
 ];
-let SEL_DEST=DEST[0], SEL_PK=DEST[0].pk[1];
-function pickDest(i,isReg){SEL_DEST=(isReg?REG:DEST)[i];SEL_PK=SEL_DEST.pk[1]||SEL_DEST.pk[0];show(SC.tPack)}
-function pickPk(i){SEL_PK=SEL_DEST.pk[i];show(SC.tDetail)}
+/* минимальная цена направления — для карточек «от X c.» */
+function minP(d){return Math.min(...d.pk.map(k=>k[2]))}
+/* уникальные сроки в наборе */
+function periods(d){return [...new Set(d.pk.map(k=>k[1]))].sort((a,b)=>a-b)}
+let SEL_DEST=DEST[0], SEL_PK=DEST[0].pk[1], SEL_DAYS=7;
+function pickDest(i,isReg){SEL_DEST=(isReg?REG:DEST)[i];SEL_DAYS=periods(SEL_DEST)[0];
+  SEL_PK=SEL_DEST.pk.filter(k=>k[1]===SEL_DAYS)[0];show(SC.tPack)}
+function setDays(d){SEL_DAYS=d;const f=SEL_DEST.pk.filter(k=>k[1]===d);if(f.length)SEL_PK=f[0];render()}
+function pickPk(gb,days){SEL_PK=SEL_DEST.pk.find(k=>k[0]===gb&&k[1]===days);show(SC.tDetail)}
 function dname(d){return LANG==='en'?d.cen:d.c}
 
 /* Именованные индексы экранов. Добавлять только в конец. */
-const SC={splash:0,home:1,cat:2,tar:3,tarD:4,login:5,kyc:6,doc1:7,doc2:8,selfie:9,
- verify:10,kycOk:11,kycNo:12,num:13,sum:14,payL:15,payOk:16,actOld:17,my:18,prof:19,
- tWhere:20,tPack:21,tDetail:22,tDev:23,tPay:24,tOk:25,trips:26,
- mHow:27,mForm:28,mSent:29,mStatus:30,install:31,instFail:32};
+const SC={splash:0,login:1,kyc:2,doc1:3,doc2:4,selfie:5,verify:6,kycOk:7,kycNo:8,card:9,home:10,cat:11,tar:12,tarD:13,num:14,sum:15,payL:16,payOk:17,actOld:18,my:19,prof:20,tWhere:21,tPack:22,tDetail:23,tDev:24,tPay:25,tOk:26,trips:27,mHow:28,mForm:29,mSent:30,mStatus:31,install:32,instFail:33};
 
 const S=[];
 
@@ -493,124 +540,11 @@ S.push(()=>`<div class="screen" style="background:linear-gradient(165deg,var(--b
        <span style="width:21px;height:21px;border-radius:50%;border:2px solid ${LANG===l[0]?'var(--brand-700)':'rgba(255,255,255,.45)'};display:grid;place-items:center">${LANG===l[0]?'<i style="width:10px;height:10px;border-radius:50%;background:var(--brand-700);display:block"></i>':''}</span>
      </button>`).join('')}
    </div>
-   <button class="btn" style="background:#fff;color:var(--brand-700)" onclick="show(SC.home)">${tx('start')} →</button>
+   <button class="btn" style="background:#fff;color:var(--brand-700)" onclick="show(SC.num)">${tx('start')} →</button>
  </div>
 </div>`);
 
 // 3 home — витрина трёх продуктов
-S.push(()=>`<div class="screen" style="background:var(--bg)">${sb()}
- <div class="scroll" style="padding:50px 16px 96px">
-   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-     <img src="${LOGOS.tojiktelecom}" alt="TOJIKTELECOM" style="height:30px">
-     <span class="pill" style="background:var(--brand-900);color:#fff" onclick="cycleLang()">🌐 ${LANG.toUpperCase()}</span>
-   </div>
-
-   <!-- Мои номера -->
-   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
-     <b style="color:var(--brand-900);font-size:15px">${tx('mynums')}</b>
-     <span style="color:var(--brand-700);font-size:12.5px;font-weight:700" onclick="show(SC.my)">${tx('nav_my')} ›</span>
-   </div>
-   <div style="display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;margin-bottom:20px">
-     <div style="flex:none;width:210px;background:linear-gradient(135deg,var(--brand-900),var(--brand-700));color:#fff;border-radius:16px;padding:14px 15px;box-shadow:0 6px 16px rgba(3,60,90,.22)">
-       <div style="font-size:11px;opacity:.8">Tcell</div>
-       <div style="font-weight:800;font-size:15px;letter-spacing:.3px;margin:3px 0 9px">+992 92 123 45 67</div>
-       <div style="display:flex;justify-content:space-between;align-items:flex-end">
-         <div><div style="font-size:10.5px;opacity:.8">Баланс</div><div style="font-weight:800;font-size:17px">42 c.</div></div>
-         <div style="text-align:right"><div style="font-size:10.5px;opacity:.8">Интернет</div><div style="font-weight:700;font-size:13px">6.2 ГБ</div></div>
-       </div>
-     </div>
-     <div style="flex:none;width:126px;background:#fff;border:1.5px dashed var(--brand-300);border-radius:16px;display:grid;place-items:center;color:var(--brand-700);font-weight:700;font-size:13px;cursor:pointer" onclick="show(SC.cat)">
-       <div style="text-align:center;line-height:1.5"><div style="font-size:22px">+</div>Добавить</div>
-     </div>
-   </div>
-
-   <!-- Обещание продукта -->
-   <div style="margin-bottom:12px">
-     <b style="color:var(--brand-900);font-size:15px">${tx('h_all')}</b>
-   </div>
-
-   <!-- Три продукта -->
-   ${[
-     ['var(--brand-700)','▣',tx('p_local'),tx('p_local_d'),'SC.cat',0],
-     ['var(--travel)','✈',tx('p_travel'),tx('p_travel_d'),'SC.tWhere',0],
-     ['var(--mnp)','⇄',tx('p_mnp'),tx('p_mnp_d'),'SC.mHow',1]
-   ].map(p=>`<div onclick="show(${p[4]})" style="background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;display:flex;align-items:center;gap:13px;margin-bottom:11px;box-shadow:0 4px 14px rgba(3,60,90,.06);cursor:pointer">
-       <span style="width:46px;height:46px;border-radius:14px;background:${p[0]};color:#fff;display:grid;place-items:center;font-size:21px;flex:none">${p[1]}</span>
-       <span style="flex:1">
-         <span style="display:flex;align-items:center;gap:7px"><b style="font-size:15px;color:var(--brand-900)">${p[2]}</b>${p[5]?`<i style="font-style:normal;background:#FFF3E0;color:var(--warn);font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:20px">${tx('soon')}</i>`:''}</span>
-         <span style="display:block;color:var(--muted);font-size:12.5px;margin-top:3px">${p[3]}</span>
-       </span>
-       <span style="color:var(--muted);font-size:19px">›</span>
-     </div>`).join('')}
-
-   <!-- Куда едете -->
-   <div style="display:flex;align-items:center;justify-content:space-between;margin:20px 0 10px">
-     <b style="color:var(--brand-900);font-size:15px">${tx('whereto')}</b>
-     <span style="color:var(--brand-700);font-size:12.5px;font-weight:700" onclick="show(SC.tWhere)">${tx('nav_cat')} ›</span>
-   </div>
-   <div style="display:flex;gap:9px;overflow-x:auto;padding-bottom:4px">
-     ${DEST.slice(0,6).map((d,i)=>`<div onclick="pickDest(${i})" style="flex:none;width:104px;background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px 10px;text-align:center;box-shadow:0 3px 10px rgba(3,60,90,.05);cursor:pointer">
-       <div style="font-size:26px;line-height:1">${d.f}</div>
-       <div style="font-weight:700;font-size:11.5px;color:var(--brand-900);margin:6px 0 3px;line-height:1.25">${dname(d)}</div>
-       <div style="color:var(--travel);font-weight:800;font-size:12px">${tx('from')} ${tjs(d.pk[0][2])} c.</div>
-     </div>`).join('')}
-   </div>
-
-   <!-- Помощь -->
-   <div class="card" style="margin-top:20px;display:flex;align-items:center;gap:12px">
-     <span style="width:40px;height:40px;border-radius:12px;background:var(--brand-50);color:var(--brand-700);display:grid;place-items:center;font-size:19px;flex:none">◎</span>
-     <span style="flex:1"><b style="font-size:13.5px;color:var(--brand-900);display:block">Центр связи рядом</b>
-     <span style="color:var(--muted);font-size:12px">Душанбе, пр. Рудаки 57 · 1.2 км</span></span>
-     <span style="color:var(--muted);font-size:19px">›</span>
-   </div>
- </div>
- ${nav('home')}
-</div>`);
-
-// 4 operator catalog
-S.push(()=>`<div class="screen">${bar('chooseop')}
- <div class="scroll" style="padding-top:14px">
-   <div class="field" style="margin-bottom:14px">🔍 <input placeholder="${tx('search')}"></div>
-   ${OPS.map((o,i)=>`<div class="opcard" onclick="pickOp(${i},5)" style="padding:16px 18px;min-height:78px">${LOGOS[LK[o.n]]?`<img src="${LOGOS[LK[o.n]]}" alt="${o.n}" style="height:36px;max-width:60%;object-fit:contain;flex:none">`:`<b style="color:${o.c}">${o.n}</b>`}${o.pop?`<span class="badge">${tx('popular')}</span>`:'<span class="arrow">›</span>'}</div>`).join('')}
- </div>
- ${nav('cat')}
-</div>`);
-
-// 5 tariffs (real, per operator)
-S.push(()=>`<div class="screen">
- <div class="appbar"><div class="back" onclick="step(-1)">‹</div>${mark(SEL_OP,32)}</div>
- <div class="scroll" style="padding-top:16px">
-   ${SEL_OP.tars.map((t,i)=>`<div class="card" style="margin-bottom:12px;border:${t.best?'2px solid var(--blue)':'1px solid var(--line)'}">
-     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
-       <div style="font-weight:800;font-size:16px;color:var(--navy)">${t.n} ${t.best?`<span class="chip" style="background:#E7F7EF;color:var(--ok)">${tx('profit')}</span>`:''}</div>
-       <div style="font-weight:800;font-size:20px;color:var(--blue2);white-space:nowrap">${t.p} <span style="font-size:12px;color:var(--muted)">c.${tx('month')}</span></div>
-     </div>
-     <div style="color:var(--muted);font-size:13px;margin:8px 0 12px">📶 ${t.gb} · 📞 ${t.min} ${t.min.match(/[0-9]/)?tx('mins'):''} · 💬 ${t.sms} ${t.sms!=='—'?'SMS':''}</div>
-     <button class="btn sec" onclick="pickTar(${i})">${tx('choose')}</button>
-   </div>`).join('')}
-   <div class="hint" style="text-align:left">ⓘ ${tx('tarnote')}</div>
- </div>
-</div>`);
-
-// 6 tariff details
-S.push(()=>`<div class="screen">${bar('tariff')}
- <div class="scroll" style="padding-top:16px">
-   <div class="card">
-     <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">${logoOnly(SEL_OP,26)}</div>
-     <div style="font-weight:800;font-size:18px;color:var(--navy)">${SEL_TAR.n}</div>
-     <div style="font-weight:800;font-size:26px;color:var(--blue2);margin:4px 0 6px">${SEL_TAR.p} c.<span style="font-size:13px;color:var(--muted)">${tx('month')}</span></div>
-     <div style="font-weight:700;color:var(--navy);margin:8px 0 6px">${tx('incl')}</div>
-     <div class="trow"><span>${tx('net')}</span><b>${SEL_TAR.gb}</b></div>
-     <div class="trow"><span>${tx('mins')==='min'?'Minutes':'Минуты'}</span><b>${SEL_TAR.min}</b></div>
-     <div class="trow"><span>${tx('sms')}</span><b>${SEL_TAR.sms}</b></div>
-     <div class="trow" style="border:0"><span>${tx('valid')}</span><b>30 ${tx('month').replace('/','')}</b></div>
-   </div>
-   <label style="display:flex;gap:10px;align-items:center;margin:16px 4px;font-size:13.5px;color:var(--muted)"><input type="checkbox" checked style="width:20px;height:20px"> <span>${tx('agree')}</span></label>
- </div>
- <div class="cta-fixed"><button class="btn cta" onclick="show(SC.login)">${tx('order')}</button></div>
-</div>`);
-
-// 7 login + OTP
 S.push(()=>`<div class="screen">${bar('login')}
  <div class="scroll" style="padding-top:24px">
    <div id="loginphase">
@@ -670,7 +604,7 @@ S.push(()=>`<div class="screen">${bar('step_chk')}
 // 13 KYC success
 S.push(()=>`<div class="screen"><div class="scroll" style="display:flex;flex-direction:column;justify-content:center;text-align:center;padding-top:60px">
    <div class="big-ic" style="background:var(--ok)">✓</div><div class="title" style="text-align:center">${tx('kyc_ok')}</div><div class="sub">${tx('kyc_ok2')}</div>
-   <button class="btn cta" style="margin-top:28px" onclick="show(SC.num)">${tx('choosenum')}</button>
+   <button class="btn cta" style="margin-top:28px" onclick="show(SC.card)">${tx('choosenum')}</button>
    <button class="btn ghost" style="margin-top:10px" onclick="show(SC.kycNo)">▸ ${tx('kyc_fail')} (демо)</button>
  </div></div>`);
 
@@ -683,6 +617,161 @@ S.push(()=>`<div class="screen"><div class="scroll" style="display:flex;flex-dir
  </div></div>`);
 
 // 15 number selection (search + prefix)
+// · Привязка банковской карты
+S.push(()=>`<div class="screen">${sb(true)}
+ <div class="appbar"><div class="back" onclick="show(SC.kycOk)">‹</div><h2>${tx('card_add')}</h2></div>
+ <div class="scroll" style="padding:18px 16px 110px">
+   <div style="background:var(--brand-50);border-radius:13px;padding:14px;margin-bottom:18px;font-size:12.5px;color:var(--brand-900);line-height:1.55">
+     ${tx('card_why')}
+   </div>
+   <div class="card">
+     <label style="display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:6px">${tx('card_num')}</label>
+     <div style="background:#F4F8FB;border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+       <span style="letter-spacing:2px;color:var(--muted);font-size:15px">•••• •••• •••• ••••</span>
+       <b style="color:#1A1F71;font-size:12px;font-style:italic">VISA</b>
+     </div>
+     <label style="display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:6px">${tx('card_owner')}</label>
+     <div style="background:#F4F8FB;border:1px solid var(--line);border-radius:12px;padding:14px;color:var(--muted);font-size:14px;margin-bottom:14px">NOM FAMILIYA</div>
+     <div style="display:flex;gap:11px">
+       <div style="flex:1"><label style="display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:6px">${tx('card_exp')}</label>
+         <div style="background:#F4F8FB;border:1px solid var(--line);border-radius:12px;padding:14px;color:var(--muted);font-size:14px">ММ/ГГ</div></div>
+       <div style="flex:1"><label style="display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:6px">CVC</label>
+         <div style="background:#F4F8FB;border:1px solid var(--line);border-radius:12px;padding:14px;color:var(--muted);font-size:14px">•••</div></div>
+     </div>
+   </div>
+   <div style="display:flex;gap:9px;align-items:flex-start;margin-top:16px">
+     <span style="font-size:15px">🔒</span>
+     <span style="color:var(--muted);font-size:11.5px;line-height:1.55">${tx('card_safe')}</span>
+   </div>
+ </div>
+ <div class="cta-fixed">
+   <button class="btn cta" onclick="show(SC.home)">${tx('card_link')}</button>
+   <button class="btn ghost" style="margin-top:9px" onclick="show(SC.home)">${tx('later')}</button>
+ </div>
+</div>`);
+
+S.push(()=>`<div class="screen" style="background:var(--bg)">${sb()}
+ <div class="scroll" style="padding:50px 16px 96px">
+   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+     <img src="${LOGOS.tojiktelecom}" alt="TOJIKTELECOM" style="height:30px">
+     <span class="pill" style="background:var(--brand-900);color:#fff" onclick="cycleLang()">🌐 ${LANG.toUpperCase()}</span>
+   </div>
+
+   <!-- Профиль абонента: KYC + карта -->
+   <div style="background:linear-gradient(135deg,var(--brand-900),var(--brand-700));color:#fff;border-radius:20px;padding:16px 17px;margin-bottom:20px;box-shadow:0 10px 24px rgba(3,60,90,.24)">
+     <div style="display:flex;align-items:center;gap:12px">
+       <span style="width:44px;height:44px;border-radius:14px;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:20px;flex:none">◍</span>
+       <span style="flex:1">
+         <b style="font-size:15px;display:block">Улугбек У.</b>
+         <span style="opacity:.82;font-size:12px">${tx('profile_ttl')}</span>
+       </span>
+       <span style="color:rgba(255,255,255,.7);font-size:19px" onclick="show(SC.prof)">›</span>
+     </div>
+     <div style="height:1px;background:rgba(255,255,255,.16);margin:14px 0"></div>
+     <div style="display:flex;gap:10px">
+       <div style="flex:1;background:rgba(255,255,255,.12);border-radius:12px;padding:10px 11px">
+         <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
+           <span style="width:15px;height:15px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;font-size:9px;flex:none">✓</span>
+           <span style="font-size:10.5px;opacity:.85">KYC</span>
+         </div>
+         <div style="font-weight:700;font-size:12px;line-height:1.3">${tx('verified')}</div>
+       </div>
+       <div style="flex:1;background:rgba(255,255,255,.12);border-radius:12px;padding:10px 11px;cursor:pointer" onclick="show(SC.card)">
+         <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
+           <span style="font-size:11px">💳</span><span style="font-size:10.5px;opacity:.85">Оплата</span>
+         </div>
+         <div style="font-weight:700;font-size:12px;line-height:1.3">•••• 4821</div>
+       </div>
+     </div>
+   </div>
+
+   <!-- Обещание продукта -->
+   <div style="margin-bottom:12px">
+     <b style="color:var(--brand-900);font-size:15px">${tx('h_all')}</b>
+   </div>
+
+   <!-- Три продукта -->
+   ${[
+     ['var(--brand-700)','▣',tx('p_local'),tx('p_local_d'),'SC.cat',0],
+     ['var(--travel)','✈',tx('p_travel'),tx('p_travel_d'),'SC.tWhere',0],
+     ['var(--mnp)','⇄',tx('p_mnp'),tx('p_mnp_d'),'SC.mHow',1]
+   ].map(p=>`<div onclick="show(${p[4]})" style="background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;display:flex;align-items:center;gap:13px;margin-bottom:11px;box-shadow:0 4px 14px rgba(3,60,90,.06);cursor:pointer">
+       <span style="width:46px;height:46px;border-radius:14px;background:${p[0]};color:#fff;display:grid;place-items:center;font-size:21px;flex:none">${p[1]}</span>
+       <span style="flex:1">
+         <span style="display:flex;align-items:center;gap:7px"><b style="font-size:15px;color:var(--brand-900)">${p[2]}</b>${p[5]?`<i style="font-style:normal;background:#FFF3E0;color:var(--warn);font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:20px">${tx('soon')}</i>`:''}</span>
+         <span style="display:block;color:var(--muted);font-size:12.5px;margin-top:3px">${p[3]}</span>
+       </span>
+       <span style="color:var(--muted);font-size:19px">›</span>
+     </div>`).join('')}
+
+   <!-- Куда едете -->
+   <div style="display:flex;align-items:center;justify-content:space-between;margin:20px 0 10px">
+     <b style="color:var(--brand-900);font-size:15px">${tx('whereto')}</b>
+     <span style="color:var(--brand-700);font-size:12.5px;font-weight:700" onclick="show(SC.tWhere)">${tx('nav_cat')} ›</span>
+   </div>
+   <div style="display:flex;gap:9px;overflow-x:auto;padding-bottom:4px">
+     ${DEST.slice(0,6).map((d,i)=>`<div onclick="pickDest(${i})" style="flex:none;width:104px;background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px 10px;text-align:center;box-shadow:0 3px 10px rgba(3,60,90,.05);cursor:pointer">
+       <div style="font-size:26px;line-height:1">${d.f}</div>
+       <div style="font-weight:700;font-size:11.5px;color:var(--brand-900);margin:6px 0 3px;line-height:1.25">${dname(d)}</div>
+       <div style="color:var(--travel);font-weight:800;font-size:12px">${tx('from')} ${tjs(minP(d))} c.</div>
+     </div>`).join('')}
+   </div>
+
+   <!-- Помощь -->
+   <div class="card" style="margin-top:20px;display:flex;align-items:center;gap:12px">
+     <span style="width:40px;height:40px;border-radius:12px;background:var(--brand-50);color:var(--brand-700);display:grid;place-items:center;font-size:19px;flex:none">◎</span>
+     <span style="flex:1"><b style="font-size:13.5px;color:var(--brand-900);display:block">Центр связи рядом</b>
+     <span style="color:var(--muted);font-size:12px">Душанбе, пр. Рудаки 57 · 1.2 км</span></span>
+     <span style="color:var(--muted);font-size:19px">›</span>
+   </div>
+ </div>
+ ${nav('home')}
+</div>`);
+
+// 4 operator catalog
+S.push(()=>`<div class="screen">${bar('chooseop')}
+ <div class="scroll" style="padding-top:14px">
+   <div class="field" style="margin-bottom:14px">🔍 <input placeholder="${tx('search')}"></div>
+   ${OPS.map((o,i)=>`<div class="opcard" onclick="pickOp(${i},5)" style="padding:16px 18px;min-height:78px">${LOGOS[LK[o.n]]?`<img src="${LOGOS[LK[o.n]]}" alt="${o.n}" style="height:36px;max-width:60%;object-fit:contain;flex:none">`:`<b style="color:${o.c}">${o.n}</b>`}${o.pop?`<span class="badge">${tx('popular')}</span>`:'<span class="arrow">›</span>'}</div>`).join('')}
+ </div>
+ ${nav('cat')}
+</div>`);
+
+// 5 tariffs (real, per operator)
+S.push(()=>`<div class="screen">
+ <div class="appbar"><div class="back" onclick="step(-1)">‹</div>${mark(SEL_OP,32)}</div>
+ <div class="scroll" style="padding-top:16px">
+   ${SEL_OP.tars.map((t,i)=>`<div class="card" style="margin-bottom:12px;border:${t.best?'2px solid var(--blue)':'1px solid var(--line)'}">
+     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+       <div style="font-weight:800;font-size:16px;color:var(--navy)">${t.n} ${t.best?`<span class="chip" style="background:#E7F7EF;color:var(--ok)">${tx('profit')}</span>`:''}</div>
+       <div style="font-weight:800;font-size:20px;color:var(--blue2);white-space:nowrap">${t.p} <span style="font-size:12px;color:var(--muted)">c.${tx('month')}</span></div>
+     </div>
+     <div style="color:var(--muted);font-size:13px;margin:8px 0 12px">📶 ${t.gb} · 📞 ${t.min} ${t.min.match(/[0-9]/)?tx('mins'):''} · 💬 ${t.sms} ${t.sms!=='—'?'SMS':''}</div>
+     <button class="btn sec" onclick="pickTar(${i})">${tx('choose')}</button>
+   </div>`).join('')}
+   <div class="hint" style="text-align:left">ⓘ ${tx('tarnote')}</div>
+ </div>
+</div>`);
+
+// 6 tariff details
+S.push(()=>`<div class="screen">${bar('tariff')}
+ <div class="scroll" style="padding-top:16px">
+   <div class="card">
+     <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">${logoOnly(SEL_OP,26)}</div>
+     <div style="font-weight:800;font-size:18px;color:var(--navy)">${SEL_TAR.n}</div>
+     <div style="font-weight:800;font-size:26px;color:var(--blue2);margin:4px 0 6px">${SEL_TAR.p} c.<span style="font-size:13px;color:var(--muted)">${tx('month')}</span></div>
+     <div style="font-weight:700;color:var(--navy);margin:8px 0 6px">${tx('incl')}</div>
+     <div class="trow"><span>${tx('net')}</span><b>${SEL_TAR.gb}</b></div>
+     <div class="trow"><span>${tx('mins')==='min'?'Minutes':'Минуты'}</span><b>${SEL_TAR.min}</b></div>
+     <div class="trow"><span>${tx('sms')}</span><b>${SEL_TAR.sms}</b></div>
+     <div class="trow" style="border:0"><span>${tx('valid')}</span><b>30 ${tx('month').replace('/','')}</b></div>
+   </div>
+   <label style="display:flex;gap:10px;align-items:center;margin:16px 4px;font-size:13.5px;color:var(--muted)"><input type="checkbox" checked style="width:20px;height:20px"> <span>${tx('agree')}</span></label>
+ </div>
+ <div class="cta-fixed"><button class="btn cta" onclick="show(SC.num)">${tx('order')}</button></div>
+</div>`);
+
+// 7 login + OTP
 S.push(()=>{CURNUMS=numsFor(SEL_OP);return `<div class="screen">${bar('numtitle')}
  <div class="scroll" style="padding-top:14px">
    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">${logoOnly(SEL_OP,24)}<b style="color:var(--navy)">+992 ${SEL_OP.pre}</b></div>
@@ -780,7 +869,7 @@ S.push(()=>`<div class="screen">${bar('proftitle',false)}
  ${nav('prof')}
 </div>`);
 
-const TITLES=['1 · Splash + язык','2 · Главная (3 продукта)','3 · Каталог операторов','4 · Тарифы','5 · Условия тарифа','6 · Вход + SMS-код','7 · KYC: старт','8 · Скан: лицевая','9 · Скан: оборот','10 · Селфи / Liveness','11 · Проверка данных','12 · KYC пройден','13 · Отказ KYC','14 · Выбор номера','15 · Итого','16 · Оплата','17 · Оплата успешна','18 · Активация (старая)','19 · Мои eSIM','20 · Профиль / FAQ','21 · ✈ Куда едете','22 · ✈ Пакеты по стране','23 · ✈ Детали пакета','24 · ✈ Проверка устройства','25 · ✈ Оплата','26 · ✈ Оплата успешна','27 · ✈ Мои поездки','28 · ⇄ MNP: как работает','29 · ⇄ MNP: заявка','30 · ⇄ MNP: принята','31 · ⇄ MNP: статус','32 · Установка eSIM','33 · Не удалось установить'];
+const TITLES=['1 · Splash + язык','2 · Вход + SMS-код','3 · KYC: старт','4 · Скан: лицевая','5 · Скан: оборот','6 · Селфи / Liveness','7 · Проверка данных','8 · KYC пройден','9 · Отказ KYC','10 · Привязка карты','11 · Главная (3 продукта)','12 · Каталог операторов','13 · Тарифы','14 · Условия тарифа','15 · Выбор номера','16 · Итого','17 · Оплата','18 · Оплата успешна','19 · Активация (старая)','20 · Мои eSIM','21 · Профиль / FAQ','22 · ✈ Куда едете','23 · ✈ Пакеты по стране','24 · ✈ Детали пакета','25 · ✈ Проверка устройства','26 · ✈ Оплата','27 · ✈ Оплата успешна','28 · ✈ Мои поездки','29 · ⇄ MNP: как работает','30 · ⇄ MNP: заявка','31 · ⇄ MNP: принята','32 · ⇄ MNP: статус','33 · Установка eSIM','34 · Не удалось установить'];
 
 
 /* =============== v2: TRAVEL eSIM =============== */
@@ -799,7 +888,7 @@ S.push(()=>`<div class="screen">${sb(true)}
      <span style="font-size:26px;line-height:1">${d.f}</span>
      <span style="flex:1"><b style="font-size:14.5px;color:var(--brand-900)">${dname(d)}</b>
      <span style="display:block;color:var(--muted);font-size:11.5px;margin-top:2px">${d.nets}</span></span>
-     <span style="text-align:right"><b style="color:var(--travel);font-size:14px">${tx('from')} ${tjs(d.pk[0][2])} c.</b>
+     <span style="text-align:right"><b style="color:var(--travel);font-size:14px">${tx('from')} ${tjs(minP(d))} c.</b>
      <span style="display:block;color:var(--muted);font-size:19px;line-height:1">›</span></span>
    </div>`).join('')}
    <b style="color:var(--brand-900);font-size:15px;display:block;margin:20px 0 10px">${tx('regions')}</b>
@@ -807,31 +896,49 @@ S.push(()=>`<div class="screen">${sb(true)}
      <span style="font-size:26px;line-height:1">${d.f}</span>
      <span style="flex:1"><b style="font-size:14.5px;color:var(--brand-900)">${dname(d)}</b>
      <span style="display:block;color:var(--muted);font-size:11.5px;margin-top:2px">${d.nets}</span></span>
-     <b style="color:var(--travel);font-size:14px">${tx('from')} ${tjs(d.pk[0][2])} c.</b>
+     <b style="color:var(--travel);font-size:14px">${tx('from')} ${tjs(minP(d))} c.</b>
    </div>`).join('')}
  </div>
  ${nav('trips')}
 </div>`);
 
-// 23 · tPack — пакеты по стране
-S.push(()=>`<div class="screen">${sb(true)}
+// 23 · tPack — пакеты по стране, фильтр по сроку
+S.push(()=>{
+ const per=periods(SEL_DEST);
+ const list=SEL_DEST.pk.filter(k=>k[1]===SEL_DAYS).sort((x,y)=>x[2]-y[2]);
+ const gbv=x=>parseFloat(String(x[0]).replace(',','.'));
+ const best=list.length>1?list.slice().sort((x,y)=>(x[2]/gbv(x))-(y[2]/gbv(y)))[0]:null;
+ return `<div class="screen">${sb(true)}
  <div class="appbar" style="background:linear-gradient(135deg,var(--travel),#0b7d72)">
    <div class="back" onclick="show(SC.tWhere)">‹</div><h2>${SEL_DEST.f} ${dname(SEL_DEST)}</h2>
  </div>
- <div class="scroll" style="padding:16px 16px 110px">
-   <div style="background:var(--brand-50);border-radius:13px;padding:12px 14px;margin-bottom:16px;font-size:12.5px;color:var(--brand-900);line-height:1.5">
+ <div style="background:#fff;border-bottom:1px solid var(--line);padding:12px 14px 11px;flex:none">
+   <div style="font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:8px">${tx('period')}</div>
+   <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:2px">
+     ${per.map(d=>`<button onclick="setDays(${d})" style="flex:none;border:none;font-family:inherit;cursor:pointer;border-radius:20px;padding:9px 15px;font-size:13px;font-weight:700;background:${d===SEL_DAYS?'var(--travel)':'#EEF3F6'};color:${d===SEL_DAYS?'#fff':'var(--muted)'}">${d} ${d===1?'день':(d<5?'дня':'дней')}</button>`).join('')}
+   </div>
+ </div>
+ <div class="scroll" style="padding:14px 16px 96px">
+   <div style="background:var(--brand-50);border-radius:12px;padding:11px 13px;margin-bottom:14px;font-size:12px;color:var(--brand-900);line-height:1.5">
      <b>${tx('nets')}:</b> ${SEL_DEST.nets}
    </div>
-   <b style="color:var(--brand-900);font-size:15px;display:block;margin-bottom:11px">${tx('pick_pack')}</b>
-   ${SEL_DEST.pk.map((k,i)=>`<div onclick="pickPk(${i})" style="background:#fff;border:${i===1?'2px solid var(--travel)':'1px solid var(--line)'};border-radius:16px;padding:15px;display:flex;align-items:center;gap:13px;margin-bottom:10px;cursor:pointer;position:relative">
-     ${i===1?`<span style="position:absolute;top:-9px;left:14px;background:var(--travel);color:#fff;font-size:9.5px;font-weight:800;padding:3px 9px;border-radius:20px">Выгодно</span>`:''}
-     <span style="flex:1"><b style="font-size:19px;color:var(--brand-900)">${k[0]}</b>
-     <span style="display:block;color:var(--muted);font-size:12.5px;margin-top:3px">${tx('valid')}: ${k[1]} ${tx('days')}</span></span>
-     <b style="color:var(--travel);font-size:17px">${tjs(k[2])} c.</b>
-   </div>`).join('')}
-   <div style="color:var(--muted);font-size:11.5px;line-height:1.5;margin-top:14px">Пакет активируется при первом подключении к сети в стране назначения. Голос и SMS не входят.</div>
+   ${list.map(k=>{const isBest=best&&k[0]===best[0]&&k[1]===best[1];
+     const perDay=(tjs(k[2])/k[1]).toFixed(1);
+     return `<div onclick="pickPk('${k[0]}',${k[1]})" style="background:#fff;border:${isBest?'2px solid var(--travel)':'1px solid var(--line)'};border-radius:16px;padding:15px;display:flex;align-items:center;gap:13px;margin-bottom:10px;cursor:pointer;position:relative">
+     ${isBest?`<span style="position:absolute;top:-9px;left:14px;background:var(--travel);color:#fff;font-size:9.5px;font-weight:800;padding:3px 9px;border-radius:20px">Выгодно</span>`:''}
+     <span style="flex:1">
+       <b style="font-size:19px;color:var(--brand-900)">${k[0]}</b>
+       <span style="display:block;color:var(--muted);font-size:12px;margin-top:3px">${k[1]} ${k[1]===1?'день':(k[1]<5?'дня':'дней')} · ${perDay} c. ${tx('perday')}</span>
+     </span>
+     <b style="color:var(--travel);font-size:18px">${tjs(k[2])} c.</b>
+   </div>`}).join('')}
+   ${list.length===0?`<div style="text-align:center;color:var(--muted);font-size:13px;padding:30px 10px">На этот срок пакетов нет.<br>Выберите другой период выше.</div>`:''}
+   <div style="color:var(--muted);font-size:11px;line-height:1.5;margin-top:16px">
+     ${tx('monty_note')} · 1 USD = ${USD_TJS} c.<br>
+     Срок начинается с первого подключения к сети в стране назначения, а не с покупки. Голос и SMS не входят.
+   </div>
  </div>
-</div>`);
+</div>`});
 
 // 24 · tDetail — детали пакета
 S.push(()=>`<div class="screen">${sb(true)}
