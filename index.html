@@ -189,6 +189,58 @@ const LOGOS={
 const LK={'Tcell':'tcell','Babilon-Mobile':'babilon','МегаФон':'megafon','ZET-Mobile':'zet','Anor':'anor','O!Mobile':'omobile'};
 /* ================= i18n ================= */
 const T={
+ no_office:{ru:'Без визита в офис',tj:'Бе ташриф ба офис',en:'No office visit'},
+ all_online:{ru:'Всё онлайн — от заявки до активации',tj:'Ҳама чиз онлайн — аз ариза то фаъолсозӣ',en:'Everything online — from request to activation'},
+ get_esim:{ru:'Получите eSIM нового оператора',tj:'eSIM-и оператори навро гиред',en:'Get the new operator eSIM'},
+ get_esim_d:{ru:'Профиль придёт в приложение — установите за минуту, никуда идти не нужно',tj:'Профил ба барнома меояд — дар як дақиқа насб кунед, ҷое рафтан лозим нест',en:'The profile arrives in the app — install it in a minute, no trip needed'},
+ inst_new:{ru:'Установить eSIM нового оператора',tj:'Насби eSIM-и оператори нав',en:'Install the new operator eSIM'},
+ esim_waiting:{ru:'eSIM готова к установке',tj:'eSIM барои насб тайёр аст',en:'eSIM ready to install'},
+ cur_op:{ru:'Текущий оператор',tj:'Оператори ҳозира',en:'Current operator'},
+ new_op:{ru:'Оператор, к которому переходите',tj:'Операторе, ки ба он мегузаред',en:'Operator you are moving to'},
+ pick_op_ph:{ru:'Выберите оператора',tj:'Операторро интихоб кунед',en:'Choose an operator'},
+ new_tar:{ru:'Тарифный план у нового оператора',tj:'Нақшаи тарифӣ дар оператори нав',en:'Tariff plan with the new operator'},
+ pick_tar_ph:{ru:'Сначала выберите оператора',tj:'Аввал операторро интихоб кунед',en:'Choose an operator first'},
+ pick_tar:{ru:'Выберите тариф',tj:'Тарифро интихоб кунед',en:'Choose a tariff'},
+ change:{ru:'Изменить',tj:'Тағйир',en:'Change'},
+ fee_port:{ru:'Перенос номера',tj:'Интиқоли рақам',en:'Number porting'},
+ fee_tar:{ru:'Тариф · первый месяц',tj:'Тариф · моҳи аввал',en:'Tariff · first month'},
+ moved_ttl:{ru:'Номер успешно перенесён',tj:'Рақам бомуваффақият интиқол дода шуд',en:'Number ported successfully'},
+ moved_from:{ru:'Откуда',tj:'Аз куҷо',en:'From'},
+ moved_to:{ru:'Куда',tj:'Ба куҷо',en:'To'},
+ moved_d:{ru:'Ваш номер теперь обслуживается новым оператором. Старую SIM-карту можно вынуть.',tj:'Рақами шумо акнун аз ҷониби оператори нав хизмат мерасонад. SIM-и кӯҳнаро гирифтан мумкин аст.',en:'Your number is now served by the new operator. You can remove the old SIM.'},
+ remind_sms:{ru:'Не забудьте перепривязать номер к SMS-уведомлениям банка',tj:'Фаромӯш накунед, ки рақамро ба огоҳиномаҳои SMS-и бонк аз нав пайваст кунед',en:'Remember to re-link your number to your bank SMS alerts'},
+ mnp_term:{ru:'Срок переноса',tj:'Мӯҳлати интиқол',en:'Porting time'},
+ mnp_48:{ru:'До 48 часов',tj:'То 48 соат',en:'Up to 48 hours'},
+ left_to:{ru:'До переноса номера',tj:'То интиқоли рақам',en:'Until your number moves'},
+ hrs:{ru:'ч',tj:'соат',en:'h'},
+ mins:{ru:'мин',tj:'дақ',en:'m'},
+ done_by:{ru:'Завершится не позднее',tj:'На дертар аз',en:'Completes no later than'},
+ keep_sim:{ru:'Старая SIM работает до конца переноса — связь не пропадёт',tj:'SIM-и кӯҳна то анҷоми интиқол кор мекунад — алоқа қатъ намешавад',en:'Your old SIM keeps working until the port completes — you stay connected'},
+ in_progress:{ru:'Перенос идёт',tj:'Интиқол идома дорад',en:'Porting in progress'},
+ overdue:{ru:'Срок истёк — разбираемся',tj:'Мӯҳлат гузашт — тафтиш мекунем',en:'Overdue — we are looking into it'},
+ overdue_d:{ru:'Перенос занял больше обычного. Мы уже проверяем, что произошло, и свяжемся с вами.',tj:'Интиқол аз маъмулӣ бештар вақт гирифт. Мо сабабро месанҷем ва бо шумо дар тамос мешавем.',en:'The port is taking longer than usual. We are checking what happened and will contact you.'},
+ mnp_price:{ru:'Стоимость переноса',tj:'Арзиши интиқол',en:'Porting fee'},
+ mnp_pay_ttl:{ru:'Оплата переноса',tj:'Пардохти интиқол',en:'Porting payment'},
+ mnp_pay_note:{ru:'Разовый платёж. Если перенос не состоится, деньги вернутся на счёт.',tj:'Пардохти якдафъаина. Агар интиқол анҷом наёбад, маблағ баргардонида мешавад.',en:'One-off charge. If the port fails, the money is refunded.'},
+ mnp_check:{ru:'Проверяем данные',tj:'Маълумотро месанҷем',en:'Checking your details'},
+ mnp_rej_ttl:{ru:'Заявка отклонена',tj:'Ариза рад карда шуд',en:'Request declined'},
+ rej_debt:{ru:'У вас есть задолженность',tj:'Шумо қарздор ҳастед',en:'You have an outstanding balance'},
+ rej_debt_d:{ru:'Перед переносом номера нужно погасить долг перед текущим оператором. После оплаты подайте заявку заново.',tj:'Пеш аз интиқоли рақам қарзро пеши оператори ҳозира пӯшидан лозим аст. Пас аз пардохт аризаро аз нав диҳед.',en:'Clear the debt with your current operator before porting. Submit the request again after payment.'},
+ rej_pass:{ru:'Паспортные данные не совпадают',tj:'Маълумоти шиноснома мувофиқат намекунад',en:'Passport details do not match'},
+ rej_pass_d:{ru:'Данные в заявке отличаются от тех, что указаны у текущего оператора. Обратитесь к нему для исправления, затем подайте заявку заново.',tj:'Маълумоти ариза аз маълумоти оператори ҳозира фарқ мекунад. Барои ислоҳ ба ӯ муроҷиат кунед ва аризаро аз нав диҳед.',en:'The details differ from those held by your current operator. Contact them to correct the data, then reapply.'},
+ rej_other:{ru:'Номер оформлен на другой паспорт',tj:'Рақам ба шиносномаи дигар ба қайд гирифта шудааст',en:'The number is registered to another passport'},
+ rej_other_d:{ru:'Перенести можно только номер, оформленный на вас. Если номер ваш, обратитесь к текущему оператору для переоформления.',tj:'Танҳо рақами ба номи шумо бударо интиқол додан мумкин аст. Агар рақам аз они шумо бошад, ба оператори ҳозира муроҷиат кунед.',en:'You can only port a number registered in your name. If it is yours, contact your current operator to re-register it.'},
+ debt_sum:{ru:'Сумма задолженности',tj:'Маблағи қарз',en:'Outstanding amount'},
+ what_todo:{ru:'Что делать',tj:'Чӣ бояд кард',en:'What to do'},
+ retry_app:{ru:'Подать заявку заново',tj:'Аз нав ариза додан',en:'Submit again'},
+ to_home:{ru:'На главную',tj:'Ба асосӣ',en:'Home'},
+ no_charge:{ru:'Деньги за услугу не списаны',tj:'Маблағ барои хидмат гирифта нашуд',en:'You have not been charged'},
+ pm_title:{ru:'Способ оплаты',tj:'Тарзи пардохт',en:'Payment method'},
+ pm_wallet:{ru:'Электронные кошельки',tj:'Ҳамёнҳои электронӣ',en:'E-wallets'},
+ pm_wallet_d:{ru:'Оплата через кошелёк на телефоне',tj:'Пардохт тавассути ҳамён дар телефон',en:'Pay with a wallet on your phone'},
+ pm_card:{ru:'Банковская карта',tj:'Корти бонкӣ',en:'Bank card'},
+ pm_card_d:{ru:'Visa · Mastercard',tj:'Visa · Mastercard',en:'Visa · Mastercard'},
+ pm_card_saved:{ru:'Привязанная карта',tj:'Корти пайвастшуда',en:'Linked card'},
  act_run:{ru:'Идёт активация…',tj:'Фаъолсозӣ идома дорад…',en:'Activating…'},
  act_wait:{ru:'Обычно занимает несколько секунд',tj:'Одатан якчанд сония мегирад',en:'Usually takes a few seconds'},
  act_done:{ru:'Ваша eSIM активирована',tj:'eSIM-и шумо фаъол шуд',en:'Your eSIM is activated'},
@@ -250,7 +302,6 @@ const T={
  p_travel_d:{ru:'Интернет за границей без роуминга',tj:'Интернет дар хориҷа бе роуминг',en:'Data abroad without roaming'},
  p_mnp:{ru:'Смена оператора',tj:'Тағйири оператор',en:'Switch operator'},
  p_mnp_d:{ru:'Сохранить свой номер',tj:'Рақами худро нигоҳ доред',en:'Keep your number'},
- soon:{ru:'Скоро',tj:'Ба зудӣ',en:'Soon'},
  mynums:{ru:'Мои номера',tj:'Рақамҳои ман',en:'My numbers'},
  nonums:{ru:'У вас пока нет номеров',tj:'Шумо ҳанӯз рақам надоред',en:'You have no numbers yet'},
  whereto:{ru:'Куда едете?',tj:'Ба куҷо меравед?',en:'Where are you going?'},
@@ -271,7 +322,6 @@ const T={
  mnp_how:{ru:'Как это работает',tj:'Чӣ тавр кор мекунад',en:'How it works'},
  mnp_apply:{ru:'Подать заявку',tj:'Ариза додан',en:'Submit request'},
  mnp_status:{ru:'Статус заявки',tj:'Ҳолати ариза',en:'Request status'},
- mnp_note:{ru:'Сервис заработает после запуска межоператорской инфраструктуры переноса номеров',tj:'Хидмат пас аз оғози инфрасохтори интиқоли рақамҳо фаъол мешавад',en:'Service starts once number portability infrastructure launches'},
  install:{ru:'Установить eSIM',tj:'Насб кардани eSIM',en:'Install eSIM'},
  inst_tap:{ru:'Установить в один тап',tj:'Бо як зер насб кунед',en:'Install in one tap'},
  inst_tap_d:{ru:'Рекомендуем · профиль установится сам',tj:'Тавсия · профил худкор насб мешавад',en:'Recommended · installs automatically'},
@@ -475,6 +525,24 @@ let CURNUMS=[];
 let LANG='ru', CUR=0, SEL_OP=OPS[0], SEL_TAR=OPS[0].tars[1], SEL_NUM='+992 92 123 45 67';
 
 function sb(light){return `<div class="sb ${light?'light':''}"><span>9:41</span><span class="r">📶 🔋</span></div>`}
+function payMethods(accent){
+ const a=accent||'var(--brand-700)';
+ const items=[
+   ['👛',tx('pm_wallet'),tx('pm_wallet_d'),1],
+   ['💳',HAS_CARD?tx('pm_card_saved'):tx('pm_card'),HAS_CARD?'•••• 4821':tx('pm_card_d'),0]
+ ];
+ return `<div style="font-size:13px;font-weight:700;color:var(--brand-900);margin-bottom:11px">${tx('pm_title')}</div>
+ ${items.map(m=>`<div class="pm ${m[3]?'on':''}" onclick="pmSel(this)" style="background:#fff;border:${m[3]?'2px solid '+a:'1px solid var(--line)'};border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:9px;cursor:pointer">
+   <span style="width:19px;height:19px;border-radius:50%;border:2px solid ${m[3]?a:'var(--line)'};display:grid;place-items:center;flex:none">${m[3]?`<i style="width:9px;height:9px;border-radius:50%;background:${a};display:block"></i>`:''}</span>
+   <span style="font-size:19px;flex:none">${m[0]}</span>
+   <span style="flex:1"><b style="font-size:13.5px;color:var(--brand-900);display:block">${m[1]}</b>
+   <span style="color:var(--muted);font-size:11.5px">${m[2]}</span></span>
+ </div>`).join('')}
+ ${HAS_CARD?'':`<div onclick="show(SC.card)" style="display:flex;align-items:center;gap:9px;padding:11px 2px;cursor:pointer">
+   <span style="width:19px;height:19px;border-radius:50%;background:var(--brand-50);color:var(--brand-700);display:grid;place-items:center;font-size:13px;font-weight:800;flex:none">+</span>
+   <span style="color:var(--brand-700);font-size:12.5px;font-weight:700">${tx('card_add_short')}</span>
+ </div>`}`}
+
 function nav(active){return `<div class="bottomnav">
   <a onclick="show(SC.home)" class="${active==='home'?'on':''}"><span class="ic">⌂</span><span>${tx('nav_home')}</span></a>
   <a onclick="show(SC.my)" class="${active==='my'?'on':''}"><span class="ic">▢</span><span>${tx('nav_my')}</span></a>
@@ -540,9 +608,26 @@ function minP(d){return Math.min(...d.pk.map(k=>k[2]))}
 function periods(d){return [...new Set(d.pk.map(k=>k[1]))].sort((a,b)=>a-b)}
 let HAS_CARD=false;
 let INST='direct';
+let INST_FROM='esim';
+function instFromMnp(){INST_FROM='mnp';INST='direct';ACT='idle';show(SC.install)}
+let MREJ='debt';
+const MNP_CUR='Tcell';
+let MNP_OP=null, MNP_TAR=null, MNP_OPEN='';
+function mnpToggle(w){MNP_OPEN=(MNP_OPEN===w?'':w);render()}
+function mnpPickOp(i){MNP_OP=OPS[i];MNP_TAR=null;MNP_OPEN='';render()}
+function mnpPickTar(i){MNP_TAR=MNP_OP.tars[i];MNP_OPEN='';render()}
+function mnpTotal(){return 20+(MNP_TAR?parseFloat(String(MNP_TAR.p).replace(',','.')):0)}
+let MNP_T0=null, MNP_SHIFT=16;   /* SHIFT — только для демонстрации состояний */
+function mnpLeft(){const total=48*60;const passed=Math.min(MNP_SHIFT*60,total+120);const left=total-passed;
+ return {left,total,passed,h:Math.floor(Math.abs(left)/60),m:Math.abs(left)%60,pct:Math.min(100,Math.round(passed/total*100))}}
+function mnpDeadline(){const d=new Date(Date.now()+(48-MNP_SHIFT)*3600e3);
+ return d.toLocaleDateString('ru-RU',{day:'numeric',month:'long'})+', '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
+function setShift(h){MNP_SHIFT=h;render()}
+function setRej(r){MREJ=r;show(SC.mReject)}
 let ACT='idle';
 function runAct(){ACT='run';render();clearTimeout(window.__act);window.__act=setTimeout(()=>{ACT='done';if(CUR===SC.actOld)render()},3000)}
 function instDirect(){INST='direct';ACT='idle';show(SC.actOld)}
+function instOp(){return INST_FROM==='mnp'&&MNP_OP?MNP_OP:SEL_OP}
 function instSms(){INST='sms';show(SC.actOld)}
 function linkCard(){HAS_CARD=true;show(SC.home)}
 function unlinkCard(){HAS_CARD=false;render()}
@@ -554,7 +639,7 @@ function pickPk(gb,days){SEL_PK=SEL_DEST.pk.find(k=>k[0]===gb&&k[1]===days);show
 function dname(d){return LANG==='en'?d.cen:d.c}
 
 /* Именованные индексы экранов. Добавлять только в конец. */
-const SC={splash:0,login:1,kyc:2,doc1:3,doc2:4,selfie:5,verify:6,kycOk:7,kycNo:8,card:9,home:10,cat:11,tar:12,tarD:13,num:14,sum:15,payL:16,payOk:17,actOld:18,my:19,prof:20,tWhere:21,tPack:22,tDetail:23,tDev:24,tPay:25,tOk:26,trips:27,mHow:28,mForm:29,mSent:30,mStatus:31,install:32,instFail:33};
+const SC={splash:0,login:1,kyc:2,doc1:3,doc2:4,selfie:5,verify:6,kycOk:7,kycNo:8,card:9,home:10,cat:11,tar:12,tarD:13,num:14,sum:15,payL:16,payOk:17,actOld:18,my:19,prof:20,tWhere:21,tPack:22,tDetail:23,tDev:24,tPay:25,tOk:26,trips:27,mHow:28,mForm:29,mSent:30,mStatus:31,install:32,instFail:33,mPay:34,mReject:35,mDone:36};
 
 const S=[];
 
@@ -750,11 +835,11 @@ S.push(()=>`<div class="screen" style="background:var(--bg)">${sb()}
    ${[
      ['var(--brand-700)','▣',tx('p_local'),tx('p_local_d'),'SC.cat',0],
      ['var(--travel)','✈',tx('p_travel'),tx('p_travel_d'),'SC.tWhere',0],
-     ['var(--mnp)','⇄',tx('p_mnp'),tx('p_mnp_d'),'SC.mHow',1]
+     ['var(--mnp)','⇄',tx('p_mnp'),tx('p_mnp_d'),'SC.mHow',0]
    ].map(p=>`<div onclick="show(${p[4]})" style="background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;display:flex;align-items:center;gap:13px;margin-bottom:11px;box-shadow:0 4px 14px rgba(3,60,90,.06);cursor:pointer">
        <span style="width:46px;height:46px;border-radius:14px;background:${p[0]};color:#fff;display:grid;place-items:center;font-size:21px;flex:none">${p[1]}</span>
        <span style="flex:1">
-         <span style="display:flex;align-items:center;gap:7px"><b style="font-size:15px;color:var(--brand-900)">${p[2]}</b>${p[5]?`<i style="font-style:normal;background:#FFF3E0;color:var(--warn);font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:20px">${tx('soon')}</i>`:''}</span>
+         <span style="display:flex;align-items:center;gap:7px"><b style="font-size:15px;color:var(--brand-900)">${p[2]}</b></span>
          <span style="display:block;color:var(--muted);font-size:12.5px;margin-top:3px">${p[3]}</span>
        </span>
        <span style="color:var(--muted);font-size:19px">›</span>
@@ -861,12 +946,7 @@ S.push(()=>`<div class="screen">${bar('ordersum')}
 // 17 payment
 S.push(()=>`<div class="screen">${bar('paytitle')}
  <div class="scroll" style="padding-top:16px">
-   <div style="font-weight:700;color:var(--navy);margin-bottom:12px">${tx('paymethod')}</div>
-   <div class="pm on" onclick="pmSel(this)"><span>💳</span><span>${tx('card')}</span><span class="rd"></span></div>
-   <div class="pm" onclick="pmSel(this)"><span>👛</span><span>${tx('wallet')}</span><span class="rd"></span></div>
-   <div class="pm" onclick="pmSel(this)"><span>🏦</span><span>${tx('ibank')}</span><span class="rd"></span></div>
-   <div class="field" style="margin:14px 0 10px">💳 <input placeholder="0000 0000 0000 0000"></div>
-   <div style="display:flex;gap:10px"><div class="field" style="flex:1">MM/YY</div><div class="field" style="flex:1">CVV</div></div>
+   ${payMethods()}
    <div class="hint" style="margin-top:16px">🔒 ${tx('secure')}</div>
  </div>
  <div class="cta-fixed"><button class="btn cta" onclick="show(SC.payOk)">${tx('pay')} ${total()} c.</button></div>
@@ -904,7 +984,7 @@ S.push(()=>{
      <div class="sub" style="animation:fadeUp .4s .18s both">${tx('act_done_d')}</div>
      <div class="card" style="margin-top:22px;text-align:left;animation:fadeUp .4s .26s both">
        <div style="display:flex;justify-content:space-between;padding-bottom:11px;margin-bottom:11px;border-bottom:1px solid var(--line)">
-         <span style="color:var(--muted);font-size:12.5px">Оператор</span><b style="font-size:12.5px;color:var(--brand-900)">${SEL_OP?SEL_OP.n:'Tcell'}</b></div>
+         <span style="color:var(--muted);font-size:12.5px">Оператор</span><b style="font-size:12.5px;color:var(--brand-900)">${instOp()?instOp().n:'Tcell'}</b></div>
        <div style="display:flex;justify-content:space-between;padding-bottom:11px;margin-bottom:11px;border-bottom:1px solid var(--line)">
          <span style="color:var(--muted);font-size:12.5px">Номер</span><b style="font-size:12.5px;color:var(--brand-900)">${SEL_NUM||'+992 92 123 45 67'}</b></div>
        <div style="display:flex;justify-content:space-between">
@@ -967,7 +1047,7 @@ S.push(()=>`<div class="screen">${bar('proftitle',false)}
  ${nav('prof')}
 </div>`);
 
-const TITLES=['1 · Splash + язык','2 · Вход + SMS-код','3 · KYC: старт','4 · Скан: лицевая','5 · Скан: оборот','6 · Селфи / Liveness','7 · Проверка данных','8 · KYC пройден','9 · Отказ KYC','10 · Привязка карты','11 · Главная (3 продукта)','12 · Каталог операторов','13 · Тарифы','14 · Условия тарифа','15 · Выбор номера','16 · Итого','17 · Оплата','18 · Оплата успешна','19 · Установка eSIM (SM-DP+)','20 · Мои eSIM','21 · Профиль / FAQ','22 · ✈ Куда едете','23 · ✈ Пакеты по стране','24 · ✈ Детали пакета','25 · ✈ Проверка устройства','26 · ✈ Оплата','27 · ✈ Оплата успешна','28 · ✈ Мои поездки','29 · ⇄ MNP: как работает','30 · ⇄ MNP: заявка','31 · ⇄ MNP: принята','32 · ⇄ MNP: статус','33 · Установка eSIM','34 · Не удалось установить'];
+const TITLES=['1 · Splash + язык','2 · Вход + SMS-код','3 · KYC: старт','4 · Скан: лицевая','5 · Скан: оборот','6 · Селфи / Liveness','7 · Проверка данных','8 · KYC пройден','9 · Отказ KYC','10 · Привязка карты','11 · Главная (3 продукта)','12 · Каталог операторов','13 · Тарифы','14 · Условия тарифа','15 · Выбор номера','16 · Итого','17 · Оплата','18 · Оплата успешна','19 · Установка eSIM (SM-DP+)','20 · Мои eSIM','21 · Профиль / FAQ','22 · ✈ Куда едете','23 · ✈ Пакеты по стране','24 · ✈ Детали пакета','25 · ✈ Проверка устройства','26 · ✈ Оплата','27 · ✈ Оплата успешна','28 · ✈ Мои поездки','29 · ⇄ MNP: как работает','30 · ⇄ MNP: заявка','31 · ⇄ MNP: принята','32 · ⇄ MNP: статус','33 · Установка eSIM','34 · Не удалось установить','35 · ⇄ MNP: оплата 20 c.','36 · ⇄ MNP: отказ','37 · ⇄ MNP: номер перенесён'];
 
 
 /* =============== v2: TRAVEL eSIM =============== */
@@ -1089,11 +1169,7 @@ S.push(()=>`<div class="screen">${sb(true)}
      <span style="display:block;color:var(--muted);font-size:12px;margin-top:2px">${SEL_PK[1]} ${tx('days')}</span></span>
      <b style="color:var(--brand-900);font-size:16px">${tjs(SEL_PK[2])} c.</b>
    </div>
-   <b style="color:var(--brand-900);font-size:14px;display:block;margin-bottom:10px">Способ оплаты</b>
-   ${[['Алиф Мобайл','кошелёк','on'],['DC Next','кошелёк',''],['Васл','кошелёк',''],['Баланс +992 92 123 45 67','42 c.',''],['Банковская карта','Visa · Mastercard','']].map(m=>`<div class="pm ${m[2]}" onclick="pmSel(this)" style="background:#fff;border:${m[2]?'2px solid var(--travel)':'1px solid var(--line)'};border-radius:14px;padding:14px;display:flex;align-items:center;gap:11px;margin-bottom:9px;cursor:pointer">
-     <span style="width:18px;height:18px;border-radius:50%;border:2px solid ${m[2]?'var(--travel)':'var(--line)'};display:grid;place-items:center;flex:none">${m[2]?'<i style="width:8px;height:8px;border-radius:50%;background:var(--travel);display:block"></i>':''}</span>
-     <span style="flex:1"><b style="font-size:13.5px;color:var(--brand-900)">${m[0]}</b><span style="display:block;color:var(--muted);font-size:11.5px">${m[1]}</span></span>
-   </div>`).join('')}
+   ${payMethods('var(--travel)')}
    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)">
      <b style="color:var(--brand-900);font-size:15px">${tx('total_')}</b><b style="color:var(--brand-900);font-size:20px">${tjs(SEL_PK[2])} c.</b>
    </div>
@@ -1155,14 +1231,26 @@ S.push(()=>`<div class="screen">${sb(true)}
    <div class="back" onclick="show(SC.home)">‹</div><h2>${tx('p_mnp')}</h2>
  </div>
  <div class="scroll" style="padding:18px 16px 110px">
-   <div style="background:#FFF3E0;border:1px solid #FFE0B2;border-radius:14px;padding:14px;display:flex;gap:11px;margin-bottom:18px">
-     <span style="font-size:19px">⏳</span>
-     <span style="flex:1;font-size:12.5px;color:#7A4B00;line-height:1.55">${tx('mnp_note')}. Оставьте заявку — сообщим, как только сервис заработает.</span>
-   </div>
+
    <div class="title" style="color:var(--brand-900);font-size:20px">Смените оператора, оставив свой номер</div>
+   <div style="display:flex;gap:7px;margin-top:12px;flex-wrap:wrap">
+     ${[tx('no_office'),tx('all_online')].map(t=>`<span style="background:#E9F7F1;color:#1B6B4A;border-radius:20px;padding:6px 12px;font-size:11.5px;font-weight:700">✓ ${t}</span>`).join('')}
+   </div>
    <div class="sub">Ваш номер останется прежним. Менять визитки, предупреждать контакты и переоформлять сервисы не придётся.</div>
-   <div class="card" style="margin-top:18px">
-     ${[['1','Оставьте заявку','Номер, документ и оператор, к которому переходите'],['2','Мы проверим данные','Обычно до 24 часов'],['3','Подтвердите перенос','Придёт SMS с кодом'],['4','Номер переносится','Связь не пропадает — старая SIM работает до конца переноса']].map((r,i)=>`<div style="display:flex;gap:13px;${i<3?'padding-bottom:15px;margin-bottom:15px;border-bottom:1px solid var(--line)':''}">
+   <div class="card" style="margin-top:16px;display:flex;align-items:center;gap:13px">
+     <span style="width:44px;height:44px;border-radius:14px;background:var(--brand-700);color:#fff;display:grid;place-items:center;font-size:19px;flex:none">⏱</span>
+     <span style="flex:1"><b style="font-size:13.5px;color:var(--brand-900);display:block">${tx('mnp_term')}</b>
+     <span style="color:var(--muted);font-size:12px">${tx('keep_sim')}</span></span>
+     <b style="font-size:17px;color:var(--brand-900);white-space:nowrap">48 ч</b>
+   </div>
+   <div class="card" style="margin-top:11px;display:flex;align-items:center;gap:13px">
+     <span style="width:44px;height:44px;border-radius:14px;background:var(--mnp);color:#fff;display:grid;place-items:center;font-size:19px;flex:none">₸</span>
+     <span style="flex:1"><b style="font-size:13.5px;color:var(--brand-900);display:block">${tx('mnp_price')}</b>
+     <span style="color:var(--muted);font-size:12px">Разовый платёж при подаче заявки</span></span>
+     <b style="font-size:20px;color:var(--brand-900)">20 c.</b>
+   </div>
+   <div class="card" style="margin-top:12px">
+     ${[['1','Оставьте заявку','Выберите нового оператора и тарифный план'],['2','Мы проверим данные','Обычно до 24 часов. Если что-то не сойдётся — скажем причину'],['3','Оплатите','Перенос и первый месяц тарифа одним платежом'],['4','Номер переносится','До 48 часов. Связь не пропадает — старая SIM работает до конца переноса'],['5',tx('get_esim'),tx('get_esim_d')]].map((r,i)=>`<div style="display:flex;gap:13px;${i<3?'padding-bottom:15px;margin-bottom:15px;border-bottom:1px solid var(--line)':''}">
        <span style="width:32px;height:32px;border-radius:10px;background:var(--mnp);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px;flex:none">${r[0]}</span>
        <span style="flex:1"><b style="font-size:13.5px;color:var(--brand-900);display:block;margin-bottom:3px">${r[1]}</b><span style="color:var(--muted);font-size:12.5px;line-height:1.5">${r[2]}</span></span></div>`).join('')}
    </div>
@@ -1170,34 +1258,65 @@ S.push(()=>`<div class="screen">${sb(true)}
  <div class="cta-fixed"><button class="btn cta" style="background:var(--mnp)" onclick="show(SC.mForm)">${tx('mnp_apply')}</button></div>
 </div>`);
 
-// 30 · mForm — подать заявку
+// 30 · mForm — заявка: оператор из списка + обязательный тариф
 S.push(()=>`<div class="screen">${sb(true)}
  <div class="appbar" style="background:linear-gradient(135deg,var(--mnp),#503a99)">
    <div class="back" onclick="show(SC.mHow)">‹</div><h2>${tx('mnp_apply')}</h2>
  </div>
- <div class="scroll" style="padding:18px 16px 110px">
-   <label style="display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px">Номер, который переносите</label>
+ <div class="scroll" style="padding:18px 16px 130px">
+
+   <label style="display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:6px">Номер, который переносите</label>
    <div style="background:#fff;border:1px solid var(--line);border-radius:13px;padding:14px;font-size:15px;font-weight:700;color:var(--brand-900);margin-bottom:16px">+992 92 123 45 67</div>
-   <label style="display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px">Текущий оператор</label>
-   <div style="background:#F1F5F8;border:1px solid var(--line);border-radius:13px;padding:14px;font-size:14px;color:var(--muted);margin-bottom:16px">Tcell · определён автоматически</div>
-   <label style="display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px">Оператор, к которому переходите</label>
-   <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:16px">
-     ${OPS.slice(1).map((o,i)=>`<div onclick="pmSel(this)" class="pm ${i===2?'on':''}" style="background:#fff;border:${i===2?'2px solid var(--mnp)':'1px solid var(--line)'};border-radius:14px;padding:14px 10px;display:grid;place-items:center;min-height:62px;cursor:pointer">${logoOnly(o,24)}</div>`).join('')}
+
+   <label style="display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:6px">${tx('cur_op')}</label>
+   <div style="background:#F1F5F8;border:1px solid var(--line);border-radius:13px;padding:13px 14px;display:flex;align-items:center;gap:11px;margin-bottom:16px">
+     ${logoOnly(OPS[0],22)}<span style="color:var(--muted);font-size:12.5px;margin-left:auto">определён автоматически</span>
    </div>
-   <label style="display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px">Номер для связи <span style="font-weight:500">(необязательно)</span></label>
-   <div style="background:#fff;border:1px solid var(--line);border-radius:13px;padding:14px;font-size:14px;color:var(--muted);margin-bottom:18px">+992</div>
-   <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px">
-     <div style="display:flex;gap:10px;margin-bottom:12px">
-       <span style="width:20px;height:20px;border-radius:6px;background:var(--mnp);color:#fff;display:grid;place-items:center;font-size:13px;flex:none">✓</span>
-       <span style="font-size:12px;color:var(--ink);line-height:1.5">Согласен на обработку персональных данных и условия переноса номера <b style="color:var(--brand-700)">Читать</b></span>
-     </div>
-     <div style="display:flex;gap:10px">
-       <span style="width:20px;height:20px;border-radius:6px;border:2px solid var(--line);flex:none"></span>
-       <span style="font-size:12px;color:var(--muted);line-height:1.5">Хочу получать рекламные сообщения</span>
-     </div>
+
+   <label style="display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:6px">${tx('new_op')}</label>
+   <div onclick="mnpToggle('op')" style="background:#fff;border:${MNP_OP?'2px solid var(--mnp)':'1px solid var(--line)'};border-radius:13px;padding:13px 14px;display:flex;align-items:center;gap:11px;cursor:pointer;margin-bottom:${MNP_OPEN==='op'?'0':'16px'}">
+     ${MNP_OP?logoOnly(MNP_OP,22):`<span style="color:var(--muted);font-size:14px;flex:1">${tx('pick_op_ph')}</span>`}
+     ${MNP_OP?`<span style="margin-left:auto;color:var(--mnp);font-size:12px;font-weight:700">${tx('change')}</span>`:''}
+     <span style="color:var(--muted);font-size:13px;transition:transform .2s;display:inline-block;transform:rotate(${MNP_OPEN==='op'?'180':'0'}deg)">▾</span>
    </div>
+   ${MNP_OPEN==='op'?`<div style="background:#fff;border:1px solid var(--line);border-top:none;border-radius:0 0 13px 13px;margin-bottom:16px;overflow:hidden;animation:fadeUp .2s both">
+     ${OPS.map((o,i)=>o.n===MNP_CUR?'':`<div onclick="mnpPickOp(${i})" style="padding:13px 14px;display:flex;align-items:center;gap:11px;cursor:pointer;border-top:1px solid var(--line)">
+       ${logoOnly(o,22)}<span style="margin-left:auto;color:var(--muted);font-size:11.5px">${o.tars.length} тарифа</span></div>`).join('')}
+   </div>`:''}
+
+   <label style="display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:6px">${tx('new_tar')} <span style="color:var(--err)">*</span></label>
+   <div onclick="${MNP_OP?"mnpToggle('tar')":''}" style="background:${MNP_OP?'#fff':'#F1F5F8'};border:${MNP_TAR?'2px solid var(--mnp)':'1px solid var(--line)'};border-radius:13px;padding:13px 14px;display:flex;align-items:center;gap:11px;cursor:${MNP_OP?'pointer':'not-allowed'};margin-bottom:${MNP_OPEN==='tar'?'0':'16px'}">
+     ${MNP_TAR?`<span style="flex:1"><b style="font-size:13.5px;color:var(--brand-900)">${MNP_TAR.n}</b><span style="display:block;color:var(--muted);font-size:11.5px;margin-top:2px">${MNP_TAR.gb} · ${MNP_TAR.min} мин · ${MNP_TAR.sms} SMS</span></span><b style="color:var(--brand-900);font-size:14px">${MNP_TAR.p} c.</b>`
+       :`<span style="color:var(--muted);font-size:14px;flex:1">${MNP_OP?tx('pick_tar'):tx('pick_tar_ph')}</span>`}
+     <span style="color:var(--muted);font-size:13px;display:inline-block;transform:rotate(${MNP_OPEN==='tar'?'180':'0'}deg)">▾</span>
+   </div>
+   ${MNP_OPEN==='tar'&&MNP_OP?`<div style="background:#fff;border:1px solid var(--line);border-top:none;border-radius:0 0 13px 13px;margin-bottom:16px;overflow:hidden;animation:fadeUp .2s both">
+     ${MNP_OP.tars.map((t,i)=>`<div onclick="mnpPickTar(${i})" style="padding:13px 14px;display:flex;align-items:center;gap:11px;cursor:pointer;border-top:1px solid var(--line)">
+       <span style="flex:1"><b style="font-size:13.5px;color:var(--brand-900)">${t.n}</b><span style="display:block;color:var(--muted);font-size:11.5px;margin-top:2px">${t.gb} · ${t.min} мин · ${t.sms} SMS</span></span>
+       <b style="color:var(--brand-900);font-size:14px">${t.p} c.</b></div>`).join('')}
+   </div>`:''}
+
+   <label style="display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:6px">Номер для связи <span style="font-weight:500">(необязательно)</span></label>
+   <div style="background:#fff;border:1px solid var(--line);border-radius:13px;padding:14px;font-size:14px;color:var(--muted);margin-bottom:16px">+992</div>
+
+   <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;gap:10px">
+     <span style="width:20px;height:20px;border-radius:6px;background:var(--mnp);color:#fff;display:grid;place-items:center;font-size:13px;flex:none">✓</span>
+     <span style="font-size:12px;color:var(--ink);line-height:1.5">Согласен на обработку персональных данных и условия переноса номера <b style="color:var(--brand-700)">Читать</b></span>
+   </div>
+
+   ${MNP_TAR?`<div class="card" style="margin-top:16px;animation:fadeUp .25s both">
+     <div style="display:flex;justify-content:space-between;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid var(--line)">
+       <span style="color:var(--muted);font-size:12.5px">${tx('fee_port')}</span><b style="font-size:13px;color:var(--brand-900)">20 c.</b></div>
+     <div style="display:flex;justify-content:space-between;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid var(--line)">
+       <span style="color:var(--muted);font-size:12.5px">${tx('fee_tar')} · ${MNP_TAR.n}</span><b style="font-size:13px;color:var(--brand-900)">${MNP_TAR.p} c.</b></div>
+     <div style="display:flex;justify-content:space-between;align-items:center">
+       <b style="color:var(--brand-900);font-size:14px">${tx('total_')}</b><b style="color:var(--brand-900);font-size:19px">${mnpTotal()} c.</b></div>
+   </div>`:''}
  </div>
- <div class="cta-fixed"><button class="btn cta" style="background:var(--mnp)" onclick="show(SC.mSent)">Отправить заявку</button></div>
+ <div class="cta-fixed">
+   <button class="btn cta" style="background:${MNP_TAR?'var(--mnp)':'#C7D3DC'}" ${MNP_TAR?'':'disabled'} onclick="show(SC.mPay)">${MNP_TAR?tx('cont')+' · '+mnpTotal()+' c.':tx('pick_tar')}</button>
+   <button class="btn ghost" style="margin-top:9px;font-size:12px;opacity:.6" onclick="setRej('debt')">▸ Пример отказа (демо)</button>
+ </div>
 </div>`);
 
 // 31 · mSent — заявка принята
@@ -1208,9 +1327,12 @@ S.push(()=>`<div class="screen" style="background:var(--bg)">${sb()}
    <div class="sub">№ MNP-2026-004821</div>
    <div class="card" style="margin-top:22px;text-align:left">
      <b style="font-size:13.5px;color:var(--brand-900);display:block;margin-bottom:9px">Что дальше</b>
-     <div style="color:var(--muted);font-size:12.5px;line-height:1.65">Мы сообщим по SMS, как только запустится инфраструктура переноса номеров. Ваша заявка сохранена и будет обработана в порядке очереди. Ничего делать не нужно — связь продолжает работать.</div>
+     <div style="color:var(--muted);font-size:12.5px;line-height:1.65">Перенос занимает <b style="color:var(--brand-900)">до 48 часов</b>. Мы пришлём SMS, когда всё будет готово. Ничего делать не нужно — ${tx('keep_sim').toLowerCase()}.</div>
+     <div style="display:flex;justify-content:space-between;align-items:center;background:var(--brand-50);border-radius:11px;padding:11px 13px;margin-top:12px">
+       <span style="color:var(--muted);font-size:12px">${tx('done_by')}</span>
+       <b style="color:var(--brand-900);font-size:12.5px">${mnpDeadline()}</b>
+     </div>
    </div>
-   <div style="background:#FFF3E0;border-radius:13px;padding:13px;margin-top:12px;font-size:12px;color:#7A4B00;line-height:1.55;text-align:left">${tx('mnp_note')}.</div>
  </div>
  <div class="cta-fixed"><button class="btn sec" onclick="show(SC.mStatus)">${tx('mnp_status')}</button></div>
 </div>`);
@@ -1221,10 +1343,26 @@ S.push(()=>`<div class="screen">${sb(true)}
    <div class="back" onclick="show(SC.home)">‹</div><h2>${tx('mnp_status')}</h2>
  </div>
  <div class="scroll" style="padding:18px 16px 96px">
+   ${(()=>{const L=mnpLeft();const over=L.left<0;
+     return `<div style="background:linear-gradient(135deg,${over?'#8A4B2A':'var(--mnp)'},${over?'#6B3820':'#503a99'});color:#fff;border-radius:20px;padding:18px 17px;margin-bottom:12px;box-shadow:0 10px 24px rgba(106,79,191,.26)">
+       <div style="font-size:12px;opacity:.85">${over?tx('overdue'):tx('left_to')}</div>
+       <div style="font-size:34px;font-weight:800;line-height:1.1;margin:6px 0 3px">${over?'—':L.h+' '+tx('hrs')+' '+L.m+' '+tx('mins')}</div>
+       <div style="font-size:11.5px;opacity:.8">${over?tx('overdue_d'):tx('done_by')+' '+mnpDeadline()}</div>
+       <div style="height:7px;border-radius:7px;background:rgba(255,255,255,.22);overflow:hidden;margin-top:14px">
+         <i style="display:block;height:100%;width:${L.pct}%;background:#fff;border-radius:7px;transition:width .4s"></i>
+       </div>
+       <div style="display:flex;justify-content:space-between;font-size:10.5px;opacity:.75;margin-top:6px">
+         <span>Заявка подана</span><span>${L.pct}%</span><span>48 ч</span>
+       </div>
+     </div>`})()}
+   <div style="background:#F1FBF6;border-radius:12px;padding:11px 13px;margin-bottom:12px;display:flex;gap:9px;align-items:center">
+     <span style="color:var(--ok);font-size:15px">✓</span>
+     <span style="font-size:12px;color:#1B6B4A;line-height:1.5">${tx('keep_sim')}</span>
+   </div>
    <div class="card">
      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
        <b style="color:var(--brand-900);font-size:15px">+992 92 123 45 67</b>
-       <span style="background:#FFF3E0;color:var(--warn);font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:20px">Ожидание</span>
+       <span style="background:#EFEBFB;color:var(--mnp);font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:20px">${tx('in_progress')}</span>
      </div>
      ${[['✓','Заявка принята','28 июля, 11:24','var(--ok)'],['●','Проверка данных','Ожидает запуска сервиса','var(--warn)'],['○','Подтверждение по SMS','—','var(--line)'],['○','Перенос номера','—','var(--line)']].map((r,i)=>`<div style="display:flex;gap:12px;${i<3?'padding-bottom:16px':''}">
        <span style="display:flex;flex-direction:column;align-items:center;flex:none">
@@ -1238,6 +1376,13 @@ S.push(()=>`<div class="screen">${sb(true)}
      <span style="flex:1;font-size:12.5px;color:var(--ink)">Вопросы по заявке — поддержка <b style="color:var(--brand-700)">2255</b></span>
    </div>
    <button class="btn ghost" style="margin-top:14px;color:var(--err)">Отозвать заявку</button>
+   <button class="btn sec" style="margin-top:9px;font-size:12.5px" onclick="show(SC.mDone)">▸ Перенос завершён (демо)</button>
+   <div style="margin-top:20px;padding-top:14px;border-top:1px dashed var(--line)">
+     <div style="color:var(--muted);font-size:10.5px;margin-bottom:7px">Демо · перемотать время</div>
+     <div style="display:flex;gap:6px">
+       ${[[0,'Только подана'],[16,'16 ч'],[40,'40 ч'],[49,'Просрочено']].map(x=>`<button onclick="setShift(${x[0]})" style="flex:1;border:none;font-family:inherit;cursor:pointer;border-radius:9px;padding:9px 4px;font-size:10.5px;font-weight:700;background:${MNP_SHIFT===x[0]?'var(--mnp)':'#EEF3F6'};color:${MNP_SHIFT===x[0]?'#fff':'var(--muted)'}">${x[1]}</button>`).join('')}
+     </div>
+   </div>
  </div>
 </div>`);
 
@@ -1294,6 +1439,145 @@ S.push(()=>`<div class="screen">${sb(true)}
      <div style="color:var(--muted);font-size:12.5px;line-height:1.6">Душанбе, пр. Рудаки 57<br>Ежедневно 08:00–20:00 · 1.2 км от вас<br><b style="color:var(--brand-700)">Сотрудник установит профиль бесплатно</b></div>
    </div>
    <div style="color:var(--muted);font-size:11.5px;margin-top:16px;line-height:1.55;text-align:center">Профиль хранится в вашем профиле — вернуться к установке можно в любой момент из раздела «Мои eSIM».</div>
+ </div>
+</div>`);
+
+
+
+// 35 · MNP: оплата переноса 20 сомони
+S.push(()=>`<div class="screen">${sb(true)}
+ <div class="appbar" style="background:linear-gradient(135deg,var(--mnp),#503a99)">
+   <div class="back" onclick="show(SC.mForm)">‹</div><h2>${tx('mnp_pay_ttl')}</h2>
+ </div>
+ <div class="scroll" style="padding:16px 16px 110px">
+   <div class="card" style="margin-bottom:14px">
+     <div style="display:flex;align-items:center;gap:12px;padding-bottom:13px;margin-bottom:13px;border-bottom:1px solid var(--line)">
+       <span style="width:40px;height:40px;border-radius:13px;background:var(--mnp);color:#fff;display:grid;place-items:center;font-size:18px;flex:none">⇄</span>
+       <span style="flex:1"><b style="color:var(--brand-900);font-size:13.5px">+992 92 123 45 67</b>
+       <span style="display:block;color:var(--muted);font-size:11.5px;margin-top:2px">${MNP_CUR} → ${MNP_OP?MNP_OP.n:'—'}</span></span>
+     </div>
+     <div style="display:flex;justify-content:space-between;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid var(--line)">
+       <span style="color:var(--muted);font-size:12.5px">${tx('fee_port')}</span><b style="font-size:13px;color:var(--brand-900)">20 c.</b></div>
+     <div style="display:flex;justify-content:space-between">
+       <span style="color:var(--muted);font-size:12.5px">${tx('fee_tar')} · ${MNP_TAR?MNP_TAR.n:'—'}</span><b style="font-size:13px;color:var(--brand-900)">${MNP_TAR?MNP_TAR.p:0} c.</b></div>
+   </div>
+   <div style="background:#F1FBF6;border-radius:12px;padding:12px 14px;margin-bottom:18px;font-size:12px;color:#1B6B4A;line-height:1.55">
+     ✓ Данные проверены. Заявку можно оплачивать.
+   </div>
+   ${payMethods('var(--mnp)')}
+   <div style="background:var(--brand-50);border-radius:12px;padding:12px 14px;margin-top:14px;font-size:12px;color:var(--brand-900);line-height:1.55">
+     ${tx('mnp_pay_note')}
+   </div>
+   <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)">
+     <b style="color:var(--brand-900);font-size:15px">${tx('total_')}</b><b style="color:var(--brand-900);font-size:20px">${mnpTotal()} c.</b>
+   </div>
+ </div>
+ <div class="cta-fixed"><button class="btn cta" style="background:var(--mnp)" onclick="show(SC.mSent)">${tx('pay')} ${mnpTotal()} c.</button></div>
+</div>`);
+
+// 36 · MNP: отказ по причине
+S.push(()=>{
+ const R={
+  debt:{ic:'₸',col:'var(--warn)',bg:'#FFF3E0',t:tx('rej_debt'),d:tx('rej_debt_d'),
+    extra:`<div style="display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 14px;margin-top:12px">
+      <span style="color:var(--muted);font-size:12.5px">${tx('debt_sum')}</span><b style="color:var(--err);font-size:17px">47.50 c.</b></div>`,
+    todo:['Погасите задолженность у текущего оператора','Дождитесь, пока баланс станет нулевым или положительным','Подайте заявку заново — данные сохранены']},
+  pass:{ic:'⌦',col:'var(--err)',bg:'#FDECEA',t:tx('rej_pass'),d:tx('rej_pass_d'),
+    extra:`<div style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 14px;margin-top:12px">
+      <div style="display:flex;justify-content:space-between;padding-bottom:9px;margin-bottom:9px;border-bottom:1px solid var(--line)">
+        <span style="color:var(--muted);font-size:12px">В заявке</span><b style="font-size:12.5px;color:var(--brand-900)">A00042299</b></div>
+      <div style="display:flex;justify-content:space-between">
+        <span style="color:var(--muted);font-size:12px">У оператора</span><b style="font-size:12.5px;color:var(--err)">не совпадает</b></div></div>`,
+    todo:['Обратитесь к текущему оператору с паспортом','Попросите привести данные в соответствие','Подайте заявку заново']},
+  other:{ic:'⊘',col:'var(--err)',bg:'#FDECEA',t:tx('rej_other'),d:tx('rej_other_d'),
+    extra:'',
+    todo:['Проверьте, что вводите свой номер','Если номер ваш — переоформите его на себя у текущего оператора','После переоформления подайте заявку заново']}
+ }[MREJ];
+ return `<div class="screen">${sb(true)}
+ <div class="appbar" style="background:linear-gradient(135deg,var(--mnp),#503a99)">
+   <div class="back" onclick="show(SC.home)">‹</div><h2>${tx('mnp_rej_ttl')}</h2>
+ </div>
+ <div class="scroll" style="padding:20px 16px 110px">
+   <div class="card" style="text-align:center;padding:24px 18px;animation:fadeUp .35s both">
+     <div style="width:64px;height:64px;border-radius:20px;background:${R.bg};color:${R.col};display:grid;place-items:center;font-size:28px;margin:0 auto 14px">${R.ic}</div>
+     <b style="font-size:16px;color:var(--brand-900);line-height:1.35;display:block">${R.t}</b>
+     <div style="color:var(--muted);font-size:13px;margin-top:10px;line-height:1.6">${R.d}</div>
+     ${R.extra}
+   </div>
+
+   <div class="card" style="margin-top:12px">
+     <b style="font-size:13px;color:var(--brand-900);display:block;margin-bottom:11px">${tx('what_todo')}</b>
+     ${R.todo.map((t,i)=>`<div style="display:flex;gap:11px;${i<R.todo.length-1?'margin-bottom:11px':''}">
+       <span style="width:22px;height:22px;border-radius:50%;background:var(--brand-50);color:var(--brand-700);display:grid;place-items:center;font-size:11px;font-weight:800;flex:none">${i+1}</span>
+       <span style="flex:1;font-size:12.5px;color:var(--ink);line-height:1.5">${t}</span></div>`).join('')}
+   </div>
+
+   <div style="background:#F1FBF6;border-radius:12px;padding:12px 14px;margin-top:12px;display:flex;gap:9px;align-items:center">
+     <span style="color:var(--ok);font-size:15px">✓</span>
+     <span style="font-size:12px;color:#1B6B4A;line-height:1.5">${tx('no_charge')}</span>
+   </div>
+
+   <div class="card" style="margin-top:12px;display:flex;align-items:center;gap:11px">
+     <span style="font-size:18px">☏</span>
+     <span style="flex:1;font-size:12.5px;color:var(--ink)">Вопросы — поддержка <b style="color:var(--brand-700)">2255</b></span>
+   </div>
+
+   <div style="margin-top:22px;padding-top:14px;border-top:1px dashed var(--line)">
+     <div style="color:var(--muted);font-size:10.5px;margin-bottom:7px">Демо · посмотреть другие причины отказа</div>
+     <div style="display:flex;gap:6px">
+       ${[['debt','Долг'],['pass','Паспорт'],['other','Чужой номер']].map(r=>`<button onclick="setRej('${r[0]}')" style="flex:1;border:none;font-family:inherit;cursor:pointer;border-radius:9px;padding:9px 6px;font-size:11px;font-weight:700;background:${MREJ===r[0]?'var(--mnp)':'#EEF3F6'};color:${MREJ===r[0]?'#fff':'var(--muted)'}">${r[1]}</button>`).join('')}
+     </div>
+   </div>
+ </div>
+ <div class="cta-fixed">
+   <button class="btn cta" style="background:var(--mnp)" onclick="show(SC.mForm)">${tx('retry_app')}</button>
+   <button class="btn ghost" style="margin-top:9px" onclick="show(SC.home)">${tx('to_home')}</button>
+ </div>
+</div>`});
+
+
+
+// 37 · MNP: номер успешно перенесён
+S.push(()=>`<div class="screen" style="background:var(--bg)">${sb()}
+ <div class="scroll" style="padding:60px 20px 120px;text-align:center">
+   <div style="width:88px;height:88px;border-radius:50%;background:#E6F7F1;color:var(--ok);display:grid;place-items:center;font-size:44px;margin:14px auto 18px;animation:fadeUp .45s both">✓</div>
+   <div class="title" style="color:var(--brand-900);animation:fadeUp .4s .1s both">${tx('moved_ttl')}</div>
+   <div class="sub" style="animation:fadeUp .4s .16s both">+992 92 123 45 67</div>
+
+   <div class="card" style="margin-top:22px;animation:fadeUp .4s .24s both">
+     <div style="display:flex;align-items:center;gap:12px">
+       <div style="flex:1;text-align:center;opacity:.5">
+         <div style="font-size:10.5px;color:var(--muted);margin-bottom:7px">${tx('moved_from')}</div>
+         ${logoOnly(OPS[0],22)}
+       </div>
+       <div style="color:var(--ok);font-size:22px;flex:none">→</div>
+       <div style="flex:1;text-align:center">
+         <div style="font-size:10.5px;color:var(--muted);margin-bottom:7px">${tx('moved_to')}</div>
+         ${MNP_OP?logoOnly(MNP_OP,22):'—'}
+       </div>
+     </div>
+     <div style="height:1px;background:var(--line);margin:15px 0"></div>
+     <div style="display:flex;justify-content:space-between;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid var(--line)">
+       <span style="color:var(--muted);font-size:12.5px">Тариф</span><b style="font-size:12.5px;color:var(--brand-900)">${MNP_TAR?MNP_TAR.n:'—'}</b></div>
+     <div style="display:flex;justify-content:space-between">
+       <span style="color:var(--muted);font-size:12.5px">Статус</span><b style="font-size:12.5px;color:var(--ok)">● Активен</b></div>
+   </div>
+
+   <div style="background:var(--brand-50);border-radius:14px;padding:14px;margin-top:14px;display:flex;gap:11px;text-align:left;animation:fadeUp .4s .32s both">
+     <span style="width:38px;height:38px;border-radius:12px;background:var(--brand-700);color:#fff;display:grid;place-items:center;font-size:17px;flex:none">▤</span>
+     <span style="flex:1"><b style="font-size:13px;color:var(--brand-900);display:block">${tx('esim_waiting')}</b>
+     <span style="color:var(--muted);font-size:12px;display:block;margin-top:3px;line-height:1.5">${tx('get_esim_d')}</span></span>
+   </div>
+   <div style="text-align:left;color:var(--muted);font-size:12.5px;margin-top:12px;line-height:1.6;animation:fadeUp .4s .36s both">${tx('moved_d')}</div>
+
+   <div style="background:#FFF8E9;border-radius:13px;padding:13px 14px;margin-top:14px;display:flex;gap:10px;text-align:left;animation:fadeUp .4s .4s both">
+     <span style="font-size:15px">⚠</span>
+     <span style="font-size:12px;color:#7A5A00;line-height:1.55">${tx('remind_sms')}</span>
+   </div>
+ </div>
+ <div class="cta-fixed">
+   <button class="btn cta" onclick="instFromMnp()">${tx('inst_new')}</button>
+   <button class="btn ghost" style="margin-top:9px" onclick="show(SC.my)">${tx('to_my')}</button>
  </div>
 </div>`);
 
