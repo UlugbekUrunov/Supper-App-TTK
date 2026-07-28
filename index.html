@@ -540,7 +540,7 @@ S.push(()=>`<div class="screen" style="background:linear-gradient(165deg,var(--b
        <span style="width:21px;height:21px;border-radius:50%;border:2px solid ${LANG===l[0]?'var(--brand-700)':'rgba(255,255,255,.45)'};display:grid;place-items:center">${LANG===l[0]?'<i style="width:10px;height:10px;border-radius:50%;background:var(--brand-700);display:block"></i>':''}</span>
      </button>`).join('')}
    </div>
-   <button class="btn" style="background:#fff;color:var(--brand-700)" onclick="show(SC.num)">${tx('start')} →</button>
+   <button class="btn" style="background:#fff;color:var(--brand-700)" onclick="show(SC.login)">${tx('start')} →</button>
  </div>
 </div>`);
 
@@ -820,7 +820,7 @@ S.push(()=>`<div class="screen">${bar('paytitle')}
 S.push(()=>`<div class="screen"><div class="scroll" style="display:flex;flex-direction:column;justify-content:center;text-align:center;padding-top:60px">
    <div class="big-ic" style="background:var(--ok)">✓</div><div class="title" style="text-align:center">${tx('paid')}</div><div class="sub">${total()} c. · № TT-2026-004821</div>
    <button class="btn sec" style="margin-top:26px">${tx('receipt')}</button>
-   <button class="btn cta" style="margin-top:10px" onclick="show(SC.actOld)">${tx('actesim')}</button>
+   <button class="btn cta" style="margin-top:10px" onclick="show(SC.install)">${tx('actesim')}</button>
  </div></div>`);
 
 // 19 activation (manual entry, no QR)
