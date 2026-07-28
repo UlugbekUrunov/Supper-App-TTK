@@ -189,6 +189,29 @@ const LOGOS={
 const LK={'Tcell':'tcell','Babilon-Mobile':'babilon','МегаФон':'megafon','ZET-Mobile':'zet','Anor':'anor','O!Mobile':'omobile'};
 /* ================= i18n ================= */
 const T={
+ act_run:{ru:'Идёт активация…',tj:'Фаъолсозӣ идома дорад…',en:'Activating…'},
+ act_wait:{ru:'Обычно занимает несколько секунд',tj:'Одатан якчанд сония мегирад',en:'Usually takes a few seconds'},
+ act_done:{ru:'Ваша eSIM активирована',tj:'eSIM-и шумо фаъол шуд',en:'Your eSIM is activated'},
+ act_done_d:{ru:'Связь заработает в течение пары минут',tj:'Алоқа дар давоми якчанд дақиқа кор мекунад',en:'Service starts within a couple of minutes'},
+ start_inst:{ru:'Начать установку',tj:'Оғози насб',en:'Start installation'},
+ esim_ready:{ru:'Ваша eSIM готова',tj:'eSIM-и шумо тайёр аст',en:'Your eSIM is ready'},
+ esim_ready_d:{ru:'Осталось установить профиль на телефон',tj:'Танҳо профилро дар телефон насб кардан лозим аст',en:'Just install the profile on your phone'},
+ inst_now:{ru:'Установить eSIM',tj:'Насб кардани eSIM',en:'Install eSIM'},
+ inst_now_d:{ru:'Профиль установится автоматически',tj:'Профил худкор насб мешавад',en:'The profile installs automatically'},
+ no_support:{ru:'Телефон не поддерживает установку?',tj:'Телефон насбро дастгирӣ намекунад?',en:'Phone does not support installation?'},
+ send_sms:{ru:'Отправить ссылку по SMS',tj:'Фиристодани пайванд бо SMS',en:'Send link by SMS'},
+ send_sms_d:{ru:'Откроете её на другом телефоне',tj:'Онро дар телефони дигар мекушоед',en:'Open it on another phone'},
+ sms_sent:{ru:'Ссылка отправлена',tj:'Пайванд фиристода шуд',en:'Link sent'},
+ sms_sent_d:{ru:'Откройте SMS на телефоне, где нужна eSIM, и нажмите на ссылку',tj:'SMS-ро дар телефоне, ки eSIM лозим аст, кушоед ва пайвандро зер кунед',en:'Open the SMS on the phone that needs the eSIM and tap the link'},
+ installing:{ru:'Устанавливаем профиль…',tj:'Профилро насб карда истодаем…',en:'Installing the profile…'},
+ inst_wait:{ru:'Это займёт около минуты. Можно свернуть приложение — установка не прервётся.',tj:'Тақрибан як дақиқа мегирад. Барномаро пӯшидан мумкин аст — насб қатъ намешавад.',en:'This takes about a minute. You can close the app — installation continues.'},
+ inst_done:{ru:'eSIM установлена',tj:'eSIM насб шуд',en:'eSIM installed'},
+ inst_done_d:{ru:'Профиль активен. Связь заработает в течение пары минут.',tj:'Профил фаъол аст. Алоқа дар давоми якчанд дақиқа кор мекунад.',en:'The profile is active. Service starts within a couple of minutes.'},
+ to_my:{ru:'Перейти в «Мои eSIM»',tj:'Ба «eSIM-и ман»',en:'Go to My eSIMs'},
+ sms_again:{ru:'Отправить ещё раз',tj:'Боз фиристодан',en:'Send again'},
+ pay_method:{ru:'Оплата',tj:'Пардохт',en:'Payment'},
+ card_add_short:{ru:'Добавить карту',tj:'Илова кардани корт',en:'Add a card'},
+ card_optional:{ru:'Необязательно — можно платить кошельком',tj:'Ҳатмӣ нест — бо ҳамён низ пардохт кардан мумкин',en:'Optional — you can pay with a wallet'},
  unlocked:{ru:'Доступны все услуги',tj:'Ҳамаи хидматҳо дастрасанд',en:'All services unlocked'},
  going_home:{ru:'Открываем приложение…',tj:'Барномаро мекушоем…',en:'Opening the app…'},
  period:{ru:'Срок',tj:'Мӯҳлат',en:'Period'},
@@ -347,7 +370,6 @@ const T={
  acttitle:{ru:'Установка eSIM',tj:'Насби eSIM',en:'Install eSIM'},
  byqr:{ru:'По QR-коду',tj:'Бо QR-код',en:'By QR code'},manual:{ru:'Вручную',tj:'Дастӣ',en:'Manual'},
  qr_hint:{ru:'Настройки → Сотовая связь → Добавить eSIM → Сканировать',tj:'Танзимот → Алоқа → Иловаи eSIM → Сканкунӣ',en:'Settings → Cellular → Add eSIM → Scan'},
- checkdev:{ru:'Проверить совместимость устройства',tj:'Санҷиши мутобиқати дастгоҳ',en:'Check device compatibility'},
  esim_active:{ru:'eSIM активна',tj:'eSIM фаъол аст',en:'eSIM is active'},
  done:{ru:'Готово',tj:'Тайёр',en:'Done'},
  man_title:{ru:'Данные для установки eSIM',tj:'Маълумот барои насби eSIM',en:'eSIM setup details'},
@@ -359,7 +381,6 @@ const T={
  sec_note:{ru:'Без QR-кода — в целях безопасности данные вводятся вручную в настройках телефона.',tj:'Бе QR-код — бо мақсади бехатарӣ маълумот дастӣ ворид мешавад.',en:'No QR code — for security, details are entered manually in phone settings.'},
  mytitle:{ru:'Мои eSIM',tj:'eSIM-и ман',en:'My eSIMs'},
  remain:{ru:'Осталось',tj:'Боқӣ монд',en:'Remaining'},
- topup:{ru:'Пополнить',tj:'Пуркунӣ',en:'Top up'},
  changetar:{ru:'Сменить тариф',tj:'Тағйири тариф',en:'Change tariff'},
  buymore:{ru:'Купить ещё eSIM',tj:'Боз eSIM харидан',en:'Buy another eSIM'},
  proftitle:{ru:'Профиль',tj:'Профил',en:'Profile'},
@@ -517,6 +538,14 @@ const REG=[
 function minP(d){return Math.min(...d.pk.map(k=>k[2]))}
 /* уникальные сроки в наборе */
 function periods(d){return [...new Set(d.pk.map(k=>k[1]))].sort((a,b)=>a-b)}
+let HAS_CARD=false;
+let INST='direct';
+let ACT='idle';
+function runAct(){ACT='run';render();clearTimeout(window.__act);window.__act=setTimeout(()=>{ACT='done';if(CUR===SC.actOld)render()},3000)}
+function instDirect(){INST='direct';ACT='idle';show(SC.actOld)}
+function instSms(){INST='sms';show(SC.actOld)}
+function linkCard(){HAS_CARD=true;show(SC.home)}
+function unlinkCard(){HAS_CARD=false;render()}
 let SEL_DEST=DEST[0], SEL_PK=DEST[0].pk[1], SEL_DAYS=7;
 function pickDest(i,isReg){SEL_DEST=(isReg?REG:DEST)[i];SEL_DAYS=periods(SEL_DEST)[0];
   SEL_PK=SEL_DEST.pk.filter(k=>k[1]===SEL_DAYS)[0];show(SC.tPack)}
@@ -643,8 +672,12 @@ S.push(()=>`<div class="screen"><div class="scroll" style="display:flex;flex-dir
 S.push(()=>`<div class="screen">${sb(true)}
  <div class="appbar"><div class="back" onclick="show(SC.home)">‹</div><h2>${tx('card_add')}</h2></div>
  <div class="scroll" style="padding:18px 16px 110px">
-   <div style="background:var(--brand-50);border-radius:13px;padding:14px;margin-bottom:18px;font-size:12.5px;color:var(--brand-900);line-height:1.55">
+   <div style="background:var(--brand-50);border-radius:13px;padding:14px;margin-bottom:14px;font-size:12.5px;color:var(--brand-900);line-height:1.55">
      ${tx('card_why')}
+   </div>
+   <div style="display:flex;gap:8px;align-items:center;background:#FFF8E9;border-radius:12px;padding:11px 13px;margin-bottom:18px">
+     <span style="font-size:14px">ⓘ</span>
+     <span style="font-size:12px;color:#7A5A00;line-height:1.5">${tx('card_optional')}</span>
    </div>
    <div class="card">
      <label style="display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:6px">${tx('card_num')}</label>
@@ -667,7 +700,7 @@ S.push(()=>`<div class="screen">${sb(true)}
    </div>
  </div>
  <div class="cta-fixed">
-   <button class="btn cta" onclick="show(SC.home)">${tx('card_link')}</button>
+   <button class="btn cta" onclick="linkCard()">${tx('card_link')}</button>
    <button class="btn ghost" style="margin-top:9px" onclick="show(SC.home)">${tx('later')}</button>
  </div>
 </div>`);
@@ -698,11 +731,12 @@ S.push(()=>`<div class="screen" style="background:var(--bg)">${sb()}
          </div>
          <div style="font-weight:700;font-size:12px;line-height:1.3">${tx('verified')}</div>
        </div>
-       <div style="flex:1;background:rgba(255,255,255,.12);border-radius:12px;padding:10px 11px;cursor:pointer" onclick="show(SC.card)">
-         <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
-           <span style="font-size:11px">💳</span><span style="font-size:10.5px;opacity:.85">Оплата</span>
+       <div style="flex:1;background:rgba(255,255,255,.12);border-radius:12px;padding:10px 11px;cursor:pointer;${HAS_CARD?'':'border:1.5px dashed rgba(255,255,255,.35)'}" onclick="show(SC.card)">
+         <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:3px">
+           <span style="display:flex;align-items:center;gap:6px"><span style="font-size:11px">💳</span><span style="font-size:10.5px;opacity:.85">${tx('pay_method')}</span></span>
+           ${HAS_CARD?'':`<span style="width:17px;height:17px;border-radius:50%;background:rgba(255,255,255,.28);display:grid;place-items:center;font-size:12px;font-weight:800;line-height:1;flex:none">+</span>`}
          </div>
-         <div style="font-weight:700;font-size:12px;line-height:1.3">•••• 4821</div>
+         <div style="font-weight:700;font-size:12px;line-height:1.3">${HAS_CARD?'•••• 4821':tx('card_add_short')}</div>
        </div>
      </div>
    </div>
@@ -754,7 +788,7 @@ S.push(()=>`<div class="screen" style="background:var(--bg)">${sb()}
 S.push(()=>`<div class="screen">${bar('chooseop')}
  <div class="scroll" style="padding-top:14px">
    <div class="field" style="margin-bottom:14px">🔍 <input placeholder="${tx('search')}"></div>
-   ${OPS.map((o,i)=>`<div class="opcard" onclick="pickOp(${i},5)" style="padding:16px 18px;min-height:78px">${LOGOS[LK[o.n]]?`<img src="${LOGOS[LK[o.n]]}" alt="${o.n}" style="height:36px;max-width:60%;object-fit:contain;flex:none">`:`<b style="color:${o.c}">${o.n}</b>`}${o.pop?`<span class="badge">${tx('popular')}</span>`:'<span class="arrow">›</span>'}</div>`).join('')}
+   ${OPS.map((o,i)=>`<div class="opcard" onclick="pickOp(${i})" style="padding:16px 18px;min-height:78px">${LOGOS[LK[o.n]]?`<img src="${LOGOS[LK[o.n]]}" alt="${o.n}" style="height:36px;max-width:60%;object-fit:contain;flex:none">`:`<b style="color:${o.c}">${o.n}</b>`}${o.pop?`<span class="badge">${tx('popular')}</span>`:'<span class="arrow">›</span>'}</div>`).join('')}
  </div>
  ${nav('cat')}
 </div>`);
@@ -845,8 +879,43 @@ S.push(()=>`<div class="screen"><div class="scroll" style="display:flex;flex-dir
    <button class="btn cta" style="margin-top:10px" onclick="show(SC.install)">${tx('actesim')}</button>
  </div></div>`);
 
-// 19 activation (manual entry, no QR)
-S.push(()=>`<div class="screen">${bar('acttitle')}
+// 19 · Установка: SM-DP+ → активация 3 с → успех
+S.push(()=>{
+ if(INST==='sms') return `<div class="screen" style="background:var(--bg)">${sb()}
+   <div class="scroll" style="padding:70px 20px 110px;text-align:center">
+     <div style="width:86px;height:86px;border-radius:50%;background:var(--brand-50);color:var(--brand-700);display:grid;place-items:center;font-size:38px;margin:20px auto 18px;animation:fadeUp .4s both">✉</div>
+     <div class="title" style="color:var(--brand-900)">${tx('sms_sent')}</div>
+     <div class="sub">+992 92 •• •• 67</div>
+     <div class="card" style="margin-top:22px;text-align:left">
+       <div style="color:var(--muted);font-size:12.5px;line-height:1.65">${tx('sms_sent_d')}</div>
+     </div>
+     <div style="background:#FFF8E9;border-radius:12px;padding:12px 14px;margin-top:12px;text-align:left;font-size:12px;color:#7A5A00;line-height:1.55">
+       Ссылка действует 7 дней. Профиль сохранён в «Мои eSIM» — установить можно в любой момент.
+     </div>
+     <button class="btn ghost" style="margin-top:14px" onclick="instSms()">${tx('sms_again')}</button>
+   </div>
+   <div class="cta-fixed"><button class="btn cta" onclick="show(SC.my)">${tx('to_my')}</button></div>
+ </div>`;
+
+ if(ACT==='done') return `<div class="screen" style="background:var(--bg)">${sb()}
+   <div class="scroll" style="padding:70px 20px 110px;text-align:center">
+     <div style="width:88px;height:88px;border-radius:50%;background:#E6F7F1;color:var(--ok);display:grid;place-items:center;font-size:44px;margin:20px auto 18px;animation:fadeUp .45s both">✓</div>
+     <div class="title" style="color:var(--brand-900);animation:fadeUp .4s .1s both">${tx('act_done')}</div>
+     <div class="sub" style="animation:fadeUp .4s .18s both">${tx('act_done_d')}</div>
+     <div class="card" style="margin-top:22px;text-align:left;animation:fadeUp .4s .26s both">
+       <div style="display:flex;justify-content:space-between;padding-bottom:11px;margin-bottom:11px;border-bottom:1px solid var(--line)">
+         <span style="color:var(--muted);font-size:12.5px">Оператор</span><b style="font-size:12.5px;color:var(--brand-900)">${SEL_OP?SEL_OP.n:'Tcell'}</b></div>
+       <div style="display:flex;justify-content:space-between;padding-bottom:11px;margin-bottom:11px;border-bottom:1px solid var(--line)">
+         <span style="color:var(--muted);font-size:12.5px">Номер</span><b style="font-size:12.5px;color:var(--brand-900)">${SEL_NUM||'+992 92 123 45 67'}</b></div>
+       <div style="display:flex;justify-content:space-between">
+         <span style="color:var(--muted);font-size:12.5px">Статус</span><b style="font-size:12.5px;color:var(--ok)">● Активна</b></div>
+     </div>
+     <div style="color:var(--muted);font-size:11.5px;margin-top:16px;line-height:1.55">Старую SIM-карту можно вынуть — она больше не нужна.</div>
+   </div>
+   <div class="cta-fixed"><button class="btn cta" onclick="show(SC.my)">${tx('to_my')}</button></div>
+ </div>`;
+
+ return `<div class="screen">${bar('acttitle')}
  <div class="scroll" style="padding-top:16px">
    <div class="title">${tx('man_title')}</div>
    <div class="sub">${tx('man_hint')}</div>
@@ -856,11 +925,18 @@ S.push(()=>`<div class="screen">${bar('acttitle')}
      <div class="mrow" style="border:0"><div style="min-width:0"><div class="ml">${tx('confcode')} · <span style="color:var(--muted);font-weight:400">${tx('optional')}</span></div><div class="mv" style="color:var(--muted)">—</div></div></div>
    </div>
    <div class="note-sec">🔒 ${tx('sec_note')}</div>
-   <button class="btn ghost" style="margin-top:14px">${tx('checkdev')}</button>
-   <div class="card" style="margin-top:14px;display:flex;align-items:center;gap:10px;border-color:var(--ok);background:#F1FBF6"><span style="color:var(--ok);font-size:22px">✓</span><b style="color:var(--ok)">${tx('esim_active')}</b></div>
+   ${ACT==='run'?`
+   <div class="card" style="margin-top:16px;text-align:center;padding:22px 16px">
+     <div class="spin" style="width:34px;height:34px;border-width:4px;margin:0 auto 12px"></div>
+     <b style="font-size:14px;color:var(--brand-900);display:block">${tx('act_run')}</b>
+     <div style="color:var(--muted);font-size:12px;margin-top:5px">${tx('act_wait')}</div>
+     <div class="autoprog" style="margin-top:16px"><i style="animation-duration:3s;background:var(--brand-700)"></i></div>
+   </div>`:''}
  </div>
- <div class="cta-fixed"><button class="btn cta" onclick="show(SC.my)">${tx('done')}</button></div>
-</div>`);
+ <div class="cta-fixed">
+   <button class="btn cta" onclick="runAct()" ${ACT==='run'?'disabled':''}>${ACT==='run'?tx('act_run'):tx('start_inst')}</button>
+ </div>
+</div>`});
 
 // 20 my esims
 S.push(()=>`<div class="screen">${bar('mytitle',false)}
@@ -891,7 +967,7 @@ S.push(()=>`<div class="screen">${bar('proftitle',false)}
  ${nav('prof')}
 </div>`);
 
-const TITLES=['1 · Splash + язык','2 · Вход + SMS-код','3 · KYC: старт','4 · Скан: лицевая','5 · Скан: оборот','6 · Селфи / Liveness','7 · Проверка данных','8 · KYC пройден','9 · Отказ KYC','10 · Привязка карты','11 · Главная (3 продукта)','12 · Каталог операторов','13 · Тарифы','14 · Условия тарифа','15 · Выбор номера','16 · Итого','17 · Оплата','18 · Оплата успешна','19 · Активация (старая)','20 · Мои eSIM','21 · Профиль / FAQ','22 · ✈ Куда едете','23 · ✈ Пакеты по стране','24 · ✈ Детали пакета','25 · ✈ Проверка устройства','26 · ✈ Оплата','27 · ✈ Оплата успешна','28 · ✈ Мои поездки','29 · ⇄ MNP: как работает','30 · ⇄ MNP: заявка','31 · ⇄ MNP: принята','32 · ⇄ MNP: статус','33 · Установка eSIM','34 · Не удалось установить'];
+const TITLES=['1 · Splash + язык','2 · Вход + SMS-код','3 · KYC: старт','4 · Скан: лицевая','5 · Скан: оборот','6 · Селфи / Liveness','7 · Проверка данных','8 · KYC пройден','9 · Отказ KYC','10 · Привязка карты','11 · Главная (3 продукта)','12 · Каталог операторов','13 · Тарифы','14 · Условия тарифа','15 · Выбор номера','16 · Итого','17 · Оплата','18 · Оплата успешна','19 · Установка eSIM (SM-DP+)','20 · Мои eSIM','21 · Профиль / FAQ','22 · ✈ Куда едете','23 · ✈ Пакеты по стране','24 · ✈ Детали пакета','25 · ✈ Проверка устройства','26 · ✈ Оплата','27 · ✈ Оплата успешна','28 · ✈ Мои поездки','29 · ⇄ MNP: как работает','30 · ⇄ MNP: заявка','31 · ⇄ MNP: принята','32 · ⇄ MNP: статус','33 · Установка eSIM','34 · Не удалось установить'];
 
 
 /* =============== v2: TRAVEL eSIM =============== */
@@ -1167,31 +1243,34 @@ S.push(()=>`<div class="screen">${sb(true)}
 
 /* =============== v2: УСТАНОВКА eSIM (общий модуль) =============== */
 
-// 33 · install — три способа с приоритетом
+// 33 · install — прямая активация + запасной путь по SMS
 S.push(()=>`<div class="screen">${sb(true)}
- <div class="appbar">
-   <div class="back" onclick="step(-1)">‹</div><h2>${tx('install')}</h2>
- </div>
- <div class="scroll" style="padding:18px 16px 96px">
-   <div style="background:var(--brand-50);border-radius:13px;padding:13px 14px;margin-bottom:18px;font-size:12.5px;color:var(--brand-900);line-height:1.55">
-     Профиль устанавливается один раз. Дальше eSIM работает как обычная SIM-карта.
+ <div class="appbar"><div class="back" onclick="step(-1)">‹</div><h2>${tx('install')}</h2></div>
+ <div class="scroll" style="padding:20px 16px 96px">
+
+   <div class="card" style="text-align:center;padding:26px 18px">
+     <div style="width:70px;height:70px;border-radius:22px;background:var(--brand-50);color:var(--brand-700);display:grid;place-items:center;font-size:32px;margin:0 auto 14px">▤</div>
+     <b style="font-size:17px;color:var(--brand-900);display:block">${tx('esim_ready')}</b>
+     <div style="color:var(--muted);font-size:13px;margin-top:7px;line-height:1.5">${tx('esim_ready_d')}</div>
    </div>
 
-   <div onclick="show(SC.instFail)" style="background:var(--brand-700);color:#fff;border-radius:18px;padding:18px;display:flex;align-items:center;gap:14px;margin-bottom:11px;cursor:pointer;box-shadow:0 8px 20px rgba(15,99,159,.3)">
-     <span style="width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.2);display:grid;place-items:center;font-size:22px;flex:none">⚡</span>
-     <span style="flex:1"><b style="font-size:15.5px;display:block">${tx('inst_tap')}</b>
-     <span style="opacity:.88;font-size:12.5px;display:block;margin-top:3px">${tx('inst_tap_d')}</span></span>
-     <span style="font-size:20px;opacity:.8">›</span>
+   <button class="btn cta" style="margin-top:18px;padding:18px" onclick="instDirect()">${tx('inst_now')}</button>
+   <div style="text-align:center;color:var(--muted);font-size:12px;margin-top:9px">${tx('inst_now_d')}</div>
+
+   <div style="display:flex;align-items:center;gap:11px;margin:26px 0 16px">
+     <i style="flex:1;height:1px;background:var(--line);display:block"></i>
+     <span style="color:var(--muted);font-size:11.5px;font-weight:600">${tx('no_support')}</span>
+     <i style="flex:1;height:1px;background:var(--line);display:block"></i>
    </div>
 
-   ${[['▣',tx('inst_qr'),tx('inst_qr_d')],['⌨',tx('inst_man'),tx('inst_man_d')]].map(r=>`<div onclick="show(SC.actOld)" style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px;display:flex;align-items:center;gap:13px;margin-bottom:10px;cursor:pointer">
-     <span style="width:42px;height:42px;border-radius:13px;background:var(--brand-50);color:var(--brand-700);display:grid;place-items:center;font-size:19px;flex:none">${r[0]}</span>
-     <span style="flex:1"><b style="font-size:14px;color:var(--brand-900);display:block">${r[1]}</b>
-     <span style="color:var(--muted);font-size:12px;display:block;margin-top:2px">${r[2]}</span></span>
+   <div onclick="instSms()" style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px;display:flex;align-items:center;gap:13px;cursor:pointer">
+     <span style="width:42px;height:42px;border-radius:13px;background:var(--brand-50);color:var(--brand-700);display:grid;place-items:center;font-size:19px;flex:none">✉</span>
+     <span style="flex:1"><b style="font-size:14px;color:var(--brand-900);display:block">${tx('send_sms')}</b>
+     <span style="color:var(--muted);font-size:12px;display:block;margin-top:2px">${tx('send_sms_d')}</span></span>
      <span style="color:var(--muted);font-size:19px">›</span>
-   </div>`).join('')}
+   </div>
 
-   <div style="text-align:center;margin-top:24px">
+   <div style="text-align:center;margin-top:26px">
      <span style="color:var(--brand-700);font-size:13px;font-weight:700;cursor:pointer" onclick="show(SC.instFail)">${tx('nowork')}</span>
    </div>
  </div>
