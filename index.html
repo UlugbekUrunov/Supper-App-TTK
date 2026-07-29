@@ -189,6 +189,15 @@ const LOGOS={
 const LK={'Tcell':'tcell','Babilon-Mobile':'babilon','МегаФон':'megafon','ZET-Mobile':'zet','Anor':'anor','O!Mobile':'omobile'};
 /* ================= i18n ================= */
 const T={
+ kyc_none:{ru:'Не пройдена',tj:'Гузаронида нашуд',en:'Not verified'},
+ kyc_gate_ttl:{ru:'Подтвердите личность',tj:'Шахсиятро тасдиқ кунед',en:'Verify your identity'},
+ kyc_gate_d:{ru:'По закону SIM-карта оформляется только на конкретного человека. Это разовая процедура — дальше все услуги открыты.',tj:'Тибқи қонун SIM-корт танҳо ба номи шахси мушаххас ба расмият дароварда мешавад. Ин як маротиба аст — минбаъд ҳамаи хидматҳо дастрасанд.',en:'By law a SIM can only be issued to an identified person. This is a one-off — afterwards all services are open.'},
+ kyc_gate_t1:{ru:'Паспорт под рукой',tj:'Шиноснома дар даст',en:'Passport at hand'},
+ kyc_gate_t2:{ru:'Займёт 2 минуты',tj:'2 дақиқа мегирад',en:'Takes 2 minutes'},
+ kyc_gate_t3:{ru:'Один раз — для всех услуг',tj:'Як маротиба — барои ҳамаи хидматҳо',en:'Once — for all services'},
+ kyc_start:{ru:'Пройти проверку',tj:'Гузаштани санҷиш',en:'Start verification'},
+ kyc_later:{ru:'Не сейчас',tj:'Ҳозир не',en:'Not now'},
+ verify_me:{ru:'Подтвердить личность',tj:'Тасдиқи шахсият',en:'Verify identity'},
  no_office:{ru:'Без визита в офис',tj:'Бе ташриф ба офис',en:'No office visit'},
  all_online:{ru:'Всё онлайн — от заявки до активации',tj:'Ҳама чиз онлайн — аз ариза то фаъолсозӣ',en:'Everything online — from request to activation'},
  get_esim:{ru:'Получите eSIM нового оператора',tj:'eSIM-и оператори навро гиред',en:'Get the new operator eSIM'},
@@ -606,11 +615,13 @@ const REG=[
 function minP(d){return Math.min(...d.pk.map(k=>k[2]))}
 /* уникальные сроки в наборе */
 function periods(d){return [...new Set(d.pk.map(k=>k[1]))].sort((a,b)=>a-b)}
+let HAS_KYC=false, PEND=null;
+function needKyc(next){ if(HAS_KYC){show(next)} else {PEND=next; show(SC.kycGate)} }
+function kycPassed(){ HAS_KYC=true; const n=PEND; PEND=null; show(n!==null?n:SC.home) }
 let HAS_CARD=false;
 let INST='direct';
 let INST_FROM='esim';
 function instFromMnp(){INST_FROM='mnp';INST='direct';ACT='idle';show(SC.install)}
-let MREJ='debt';
 const MNP_CUR='Tcell';
 let MNP_OP=null, MNP_TAR=null, MNP_OPEN='';
 function mnpToggle(w){MNP_OPEN=(MNP_OPEN===w?'':w);render()}
@@ -623,7 +634,6 @@ function mnpLeft(){const total=48*60;const passed=Math.min(MNP_SHIFT*60,total+12
 function mnpDeadline(){const d=new Date(Date.now()+(48-MNP_SHIFT)*3600e3);
  return d.toLocaleDateString('ru-RU',{day:'numeric',month:'long'})+', '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
 function setShift(h){MNP_SHIFT=h;render()}
-function setRej(r){MREJ=r;show(SC.mReject)}
 let ACT='idle';
 function runAct(){ACT='run';render();clearTimeout(window.__act);window.__act=setTimeout(()=>{ACT='done';if(CUR===SC.actOld)render()},3000)}
 function instDirect(){INST='direct';ACT='idle';show(SC.actOld)}
@@ -639,7 +649,7 @@ function pickPk(gb,days){SEL_PK=SEL_DEST.pk.find(k=>k[0]===gb&&k[1]===days);show
 function dname(d){return LANG==='en'?d.cen:d.c}
 
 /* Именованные индексы экранов. Добавлять только в конец. */
-const SC={splash:0,login:1,kyc:2,doc1:3,doc2:4,selfie:5,verify:6,kycOk:7,kycNo:8,card:9,home:10,cat:11,tar:12,tarD:13,num:14,sum:15,payL:16,payOk:17,actOld:18,my:19,prof:20,tWhere:21,tPack:22,tDetail:23,tDev:24,tPay:25,tOk:26,trips:27,mHow:28,mForm:29,mSent:30,mStatus:31,install:32,instFail:33,mPay:34,mReject:35,mDone:36};
+const SC={splash:0,login:1,kyc:2,doc1:3,doc2:4,selfie:5,verify:6,kycOk:7,kycNo:8,card:9,home:10,cat:11,tar:12,tarD:13,num:14,sum:15,payL:16,payOk:17,actOld:18,my:19,prof:20,tWhere:21,tPack:22,tDetail:23,tDev:24,tPay:25,tOk:26,trips:27,mHow:28,mForm:29,mSent:30,mStatus:31,install:32,instFail:33,mPay:34,mRejDebt:35,mRejPass:36,mRejOther:37,mDone:38,kycGate:39};
 
 const S=[];
 
@@ -679,7 +689,7 @@ S.push(()=>`<div class="screen">${bar('login')}
      <div class="title">${tx('entercode')}</div><div class="sub">${tx('sentto')} +992 90 123 45 67</div>
      <div class="otp" style="margin-top:22px"><b class="f">1</b><b>2</b><b>3</b><b>_</b></div>
      <div class="hint">${tx('resend')} 0:47</div>
-     <button class="btn cta" style="margin-top:20px" onclick="show(SC.kyc)">${tx('verify')}</button>
+     <button class="btn cta" style="margin-top:20px" onclick="show(SC.home)">${tx('verify')}</button>
    </div>
  </div>
 </div>`);
@@ -726,7 +736,7 @@ S.push(()=>`<div class="screen">${bar('step_chk')}
 // 13 KYC success — автопереход на главную
 S.push(()=>{
  clearTimeout(window.__autoTo);
- window.__autoTo=setTimeout(()=>{ if(CUR===SC.kycOk) show(SC.home) },2300);
+ window.__autoTo=setTimeout(()=>{ if(CUR===SC.kycOk) kycPassed() },2300);
  return `<div class="screen"><div class="scroll" style="display:flex;flex-direction:column;justify-content:center;text-align:center;padding-top:60px">
    <div class="big-ic" style="background:var(--ok);animation:fadeUp .4s .05s both">✓</div>
    <div class="title" style="text-align:center;animation:fadeUp .4s .14s both">${tx('kyc_ok')}</div>
@@ -809,12 +819,14 @@ S.push(()=>`<div class="screen" style="background:var(--bg)">${sb()}
      </div>
      <div style="height:1px;background:rgba(255,255,255,.16);margin:14px 0"></div>
      <div style="display:flex;gap:10px">
-       <div style="flex:1;background:rgba(255,255,255,.12);border-radius:12px;padding:10px 11px">
-         <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
-           <span style="width:15px;height:15px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;font-size:9px;flex:none">✓</span>
-           <span style="font-size:10.5px;opacity:.85">KYC</span>
+       <div style="flex:1;background:rgba(255,255,255,.12);border-radius:12px;padding:10px 11px;cursor:pointer;${HAS_KYC?'':'border:1.5px dashed rgba(255,255,255,.35)'}" onclick="${HAS_KYC?'':'needKyc(null)'}">
+         <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:3px">
+           <span style="display:flex;align-items:center;gap:6px">
+             ${HAS_KYC?`<span style="width:15px;height:15px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;font-size:9px;flex:none">✓</span>`:`<span style="font-size:11px">🪪</span>`}
+             <span style="font-size:10.5px;opacity:.85">KYC</span></span>
+           ${HAS_KYC?'':`<span style="width:17px;height:17px;border-radius:50%;background:rgba(255,255,255,.28);display:grid;place-items:center;font-size:12px;font-weight:800;line-height:1;flex:none">+</span>`}
          </div>
-         <div style="font-weight:700;font-size:12px;line-height:1.3">${tx('verified')}</div>
+         <div style="font-weight:700;font-size:12px;line-height:1.3">${HAS_KYC?tx('verified'):tx('kyc_none')}</div>
        </div>
        <div style="flex:1;background:rgba(255,255,255,.12);border-radius:12px;padding:10px 11px;cursor:pointer;${HAS_CARD?'':'border:1.5px dashed rgba(255,255,255,.35)'}" onclick="show(SC.card)">
          <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:3px">
@@ -921,7 +933,7 @@ S.push(()=>{CURNUMS=numsFor(SEL_OP);return `<div class="screen">${bar('numtitle'
    <button class="btn ghost" style="margin-top:8px">${tx('refresh')}</button>
    <div class="hint" style="text-align:left;margin-top:12px">ⓘ ${tx('numnote')}</div>
  </div>
- <div class="cta-fixed"><button class="btn cta" onclick="show(SC.sum)">${tx('topay')}</button></div>
+ <div class="cta-fixed"><button class="btn cta" onclick="needKyc(SC.sum)">${tx('topay')}</button></div>
 </div>`});
 
 // 16 order summary
@@ -1047,7 +1059,7 @@ S.push(()=>`<div class="screen">${bar('proftitle',false)}
  ${nav('prof')}
 </div>`);
 
-const TITLES=['1 · Splash + язык','2 · Вход + SMS-код','3 · KYC: старт','4 · Скан: лицевая','5 · Скан: оборот','6 · Селфи / Liveness','7 · Проверка данных','8 · KYC пройден','9 · Отказ KYC','10 · Привязка карты','11 · Главная (3 продукта)','12 · Каталог операторов','13 · Тарифы','14 · Условия тарифа','15 · Выбор номера','16 · Итого','17 · Оплата','18 · Оплата успешна','19 · Установка eSIM (SM-DP+)','20 · Мои eSIM','21 · Профиль / FAQ','22 · ✈ Куда едете','23 · ✈ Пакеты по стране','24 · ✈ Детали пакета','25 · ✈ Проверка устройства','26 · ✈ Оплата','27 · ✈ Оплата успешна','28 · ✈ Мои поездки','29 · ⇄ MNP: как работает','30 · ⇄ MNP: заявка','31 · ⇄ MNP: принята','32 · ⇄ MNP: статус','33 · Установка eSIM','34 · Не удалось установить','35 · ⇄ MNP: оплата 20 c.','36 · ⇄ MNP: отказ','37 · ⇄ MNP: номер перенесён'];
+const TITLES=['1 · Splash + язык','2 · Вход + SMS-код','3 · KYC: старт','4 · Скан: лицевая','5 · Скан: оборот','6 · Селфи / Liveness','7 · Проверка данных','8 · KYC пройден','9 · Отказ KYC','10 · Привязка карты','11 · Главная (3 продукта)','12 · Каталог операторов','13 · Тарифы','14 · Условия тарифа','15 · Выбор номера','16 · Итого','17 · Оплата','18 · Оплата успешна','19 · Установка eSIM (SM-DP+)','20 · Мои eSIM','21 · Профиль / FAQ','22 · ✈ Куда едете','23 · ✈ Пакеты по стране','24 · ✈ Детали пакета','25 · ✈ Проверка устройства','26 · ✈ Оплата','27 · ✈ Оплата успешна','28 · ✈ Мои поездки','29 · ⇄ MNP: как работает','30 · ⇄ MNP: заявка','31 · ⇄ MNP: принята','32 · ⇄ MNP: статус','33 · Установка eSIM','34 · Не удалось установить','35 · ⇄ MNP: оплата 20 c.','36 · ⛔ Отказ: задолженность','37 · ⛔ Отказ: паспорт не совпал','38 · ⛔ Отказ: чужой номер','39 · ⇄ MNP: номер перенесён','40 · 🪪 Требуется KYC'];
 
 
 /* =============== v2: TRAVEL eSIM =============== */
@@ -1314,8 +1326,7 @@ S.push(()=>`<div class="screen">${sb(true)}
    </div>`:''}
  </div>
  <div class="cta-fixed">
-   <button class="btn cta" style="background:${MNP_TAR?'var(--mnp)':'#C7D3DC'}" ${MNP_TAR?'':'disabled'} onclick="show(SC.mPay)">${MNP_TAR?tx('cont')+' · '+mnpTotal()+' c.':tx('pick_tar')}</button>
-   <button class="btn ghost" style="margin-top:9px;font-size:12px;opacity:.6" onclick="setRej('debt')">▸ Пример отказа (демо)</button>
+   <button class="btn cta" style="background:${MNP_TAR?'var(--mnp)':'#C7D3DC'}" ${MNP_TAR?'':'disabled'} onclick="needKyc(SC.mPay)">${MNP_TAR?tx('cont')+' · '+mnpTotal()+' c.':tx('pick_tar')}</button>
  </div>
 </div>`);
 
@@ -1468,6 +1479,13 @@ S.push(()=>`<div class="screen">${sb(true)}
    <div style="background:var(--brand-50);border-radius:12px;padding:12px 14px;margin-top:14px;font-size:12px;color:var(--brand-900);line-height:1.55">
      ${tx('mnp_pay_note')}
    </div>
+   <div style="margin-top:18px;padding-top:14px;border-top:1px dashed var(--line)">
+     <div style="color:var(--muted);font-size:11px;margin-bottom:8px">Возможные причины отказа</div>
+     ${[[SC.mRejDebt,'₸','Задолженность'],[SC.mRejPass,'⌦','Паспорт не совпал'],[SC.mRejOther,'⊘','Чужой номер']].map(r=>`<div onclick="show(${r[0]})" style="display:flex;align-items:center;gap:10px;padding:11px 12px;background:#fff;border:1px solid var(--line);border-radius:11px;margin-bottom:7px;cursor:pointer">
+       <span style="width:26px;height:26px;border-radius:8px;background:#F4F8FB;color:var(--muted);display:grid;place-items:center;font-size:13px;flex:none">${r[1]}</span>
+       <span style="flex:1;font-size:12.5px;color:var(--ink)">${r[2]}</span>
+       <span style="color:var(--muted);font-size:15px">›</span></div>`).join('')}
+   </div>
    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)">
      <b style="color:var(--brand-900);font-size:15px">${tx('total_')}</b><b style="color:var(--brand-900);font-size:20px">${mnpTotal()} c.</b>
    </div>
@@ -1475,8 +1493,8 @@ S.push(()=>`<div class="screen">${sb(true)}
  <div class="cta-fixed"><button class="btn cta" style="background:var(--mnp)" onclick="show(SC.mSent)">${tx('pay')} ${mnpTotal()} c.</button></div>
 </div>`);
 
-// 36 · MNP: отказ по причине
-S.push(()=>{
+// 36-38 · MNP: три экрана отказа
+function rejScreen(kind){
  const R={
   debt:{ic:'₸',col:'var(--warn)',bg:'#FFF3E0',t:tx('rej_debt'),d:tx('rej_debt_d'),
     extra:`<div style="display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 14px;margin-top:12px">
@@ -1492,50 +1510,42 @@ S.push(()=>{
   other:{ic:'⊘',col:'var(--err)',bg:'#FDECEA',t:tx('rej_other'),d:tx('rej_other_d'),
     extra:'',
     todo:['Проверьте, что вводите свой номер','Если номер ваш — переоформите его на себя у текущего оператора','После переоформления подайте заявку заново']}
- }[MREJ];
+ }[kind];
  return `<div class="screen">${sb(true)}
  <div class="appbar" style="background:linear-gradient(135deg,var(--mnp),#503a99)">
    <div class="back" onclick="show(SC.home)">‹</div><h2>${tx('mnp_rej_ttl')}</h2>
  </div>
- <div class="scroll" style="padding:20px 16px 110px">
+ <div class="scroll" style="padding:20px 16px 130px">
    <div class="card" style="text-align:center;padding:24px 18px;animation:fadeUp .35s both">
      <div style="width:64px;height:64px;border-radius:20px;background:${R.bg};color:${R.col};display:grid;place-items:center;font-size:28px;margin:0 auto 14px">${R.ic}</div>
      <b style="font-size:16px;color:var(--brand-900);line-height:1.35;display:block">${R.t}</b>
      <div style="color:var(--muted);font-size:13px;margin-top:10px;line-height:1.6">${R.d}</div>
      ${R.extra}
    </div>
-
    <div class="card" style="margin-top:12px">
      <b style="font-size:13px;color:var(--brand-900);display:block;margin-bottom:11px">${tx('what_todo')}</b>
      ${R.todo.map((t,i)=>`<div style="display:flex;gap:11px;${i<R.todo.length-1?'margin-bottom:11px':''}">
        <span style="width:22px;height:22px;border-radius:50%;background:var(--brand-50);color:var(--brand-700);display:grid;place-items:center;font-size:11px;font-weight:800;flex:none">${i+1}</span>
        <span style="flex:1;font-size:12.5px;color:var(--ink);line-height:1.5">${t}</span></div>`).join('')}
    </div>
-
    <div style="background:#F1FBF6;border-radius:12px;padding:12px 14px;margin-top:12px;display:flex;gap:9px;align-items:center">
      <span style="color:var(--ok);font-size:15px">✓</span>
      <span style="font-size:12px;color:#1B6B4A;line-height:1.5">${tx('no_charge')}</span>
    </div>
-
    <div class="card" style="margin-top:12px;display:flex;align-items:center;gap:11px">
      <span style="font-size:18px">☏</span>
      <span style="flex:1;font-size:12.5px;color:var(--ink)">Вопросы — поддержка <b style="color:var(--brand-700)">2255</b></span>
-   </div>
-
-   <div style="margin-top:22px;padding-top:14px;border-top:1px dashed var(--line)">
-     <div style="color:var(--muted);font-size:10.5px;margin-bottom:7px">Демо · посмотреть другие причины отказа</div>
-     <div style="display:flex;gap:6px">
-       ${[['debt','Долг'],['pass','Паспорт'],['other','Чужой номер']].map(r=>`<button onclick="setRej('${r[0]}')" style="flex:1;border:none;font-family:inherit;cursor:pointer;border-radius:9px;padding:9px 6px;font-size:11px;font-weight:700;background:${MREJ===r[0]?'var(--mnp)':'#EEF3F6'};color:${MREJ===r[0]?'#fff':'var(--muted)'}">${r[1]}</button>`).join('')}
-     </div>
    </div>
  </div>
  <div class="cta-fixed">
    <button class="btn cta" style="background:var(--mnp)" onclick="show(SC.mForm)">${tx('retry_app')}</button>
    <button class="btn ghost" style="margin-top:9px" onclick="show(SC.home)">${tx('to_home')}</button>
  </div>
-</div>`});
+</div>`}
 
-
+S.push(()=>rejScreen('debt'));
+S.push(()=>rejScreen('pass'));
+S.push(()=>rejScreen('other'));
 
 // 37 · MNP: номер успешно перенесён
 S.push(()=>`<div class="screen" style="background:var(--bg)">${sb()}
@@ -1578,6 +1588,32 @@ S.push(()=>`<div class="screen" style="background:var(--bg)">${sb()}
  <div class="cta-fixed">
    <button class="btn cta" onclick="instFromMnp()">${tx('inst_new')}</button>
    <button class="btn ghost" style="margin-top:9px" onclick="show(SC.my)">${tx('to_my')}</button>
+ </div>
+</div>`);
+
+
+
+// 40 · Шлюз KYC — появляется в момент покупки
+S.push(()=>`<div class="screen" style="background:var(--bg)">${sb()}
+ <div class="scroll" style="padding:60px 20px 130px;text-align:center">
+   <div style="width:82px;height:82px;border-radius:26px;background:var(--brand-50);color:var(--brand-700);display:grid;place-items:center;font-size:36px;margin:14px auto 18px;animation:fadeUp .4s both">🪪</div>
+   <div class="title" style="color:var(--brand-900);animation:fadeUp .4s .08s both">${tx('kyc_gate_ttl')}</div>
+   <div class="sub" style="animation:fadeUp .4s .16s both">${tx('kyc_gate_d')}</div>
+
+   <div class="card" style="margin-top:22px;text-align:left;animation:fadeUp .4s .24s both">
+     ${[['🪪',tx('kyc_gate_t1')],['⏱',tx('kyc_gate_t2')],['✓',tx('kyc_gate_t3')]].map((r,i)=>`<div style="display:flex;align-items:center;gap:12px;${i<2?'padding-bottom:13px;margin-bottom:13px;border-bottom:1px solid var(--line)':''}">
+       <span style="width:34px;height:34px;border-radius:11px;background:var(--brand-50);color:var(--brand-700);display:grid;place-items:center;font-size:16px;flex:none">${r[0]}</span>
+       <span style="flex:1;font-size:13px;color:var(--ink)">${r[1]}</span></div>`).join('')}
+   </div>
+
+   <div style="display:flex;gap:9px;align-items:flex-start;margin-top:16px;text-align:left">
+     <span style="font-size:14px">🔒</span>
+     <span style="color:var(--muted);font-size:11.5px;line-height:1.55">Документы передаются в зашифрованном виде и используются только для регистрации абонента.</span>
+   </div>
+ </div>
+ <div class="cta-fixed">
+   <button class="btn cta" onclick="show(SC.kyc)">${tx('kyc_start')}</button>
+   <button class="btn ghost" style="margin-top:9px" onclick="show(SC.home)">${tx('kyc_later')}</button>
  </div>
 </div>`);
 
